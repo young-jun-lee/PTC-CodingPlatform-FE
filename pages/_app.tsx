@@ -1,6 +1,7 @@
 // import "../styles/globals.css";
 import "../styles/Landing.css";
 import "../styles/Footer.css";
+import "../styles/Banner.css";
 import type { AppProps } from "next/app";
 import Footer from "../components/Footer";
 
