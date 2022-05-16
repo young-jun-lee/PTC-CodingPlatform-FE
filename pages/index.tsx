@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Text from "./content/landing.js";
+import Text from "../content/landing";
 
 const Landing: NextPage = () => {
 	return (
