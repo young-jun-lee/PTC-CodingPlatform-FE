@@ -1,11 +1,13 @@
 import type { NextPage } from "next";
 import Banner from "../components/Banner";
+import Navbar from "../components/Navbar";
 import Text from "../content/landing";
 
 const Landing: NextPage = () => {
 	return (
 		<div className='section'>
-			<Banner page='Welcome'></Banner>
+			<Navbar />
+			<Banner page='Welcome' />
 			<div className='container'>
 				<div className='landingContainer'>
 					<div className='aboutPTC landing-box'>
