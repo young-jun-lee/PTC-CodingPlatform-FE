@@ -1,0 +1,7 @@
+#here we define our resolver ie mutation in this case and use codegen to automatically generate the typesafe queries
+#the generated template creates and exports useRegisterMutation which can be used to access this mutation
+mutation Register($options: UsernamePasswordInput!) {
+	register(options: $options) {
+		...RegularUserResponse
+	}
+}
