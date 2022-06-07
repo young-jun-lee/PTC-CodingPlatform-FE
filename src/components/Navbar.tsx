@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import codingLogos from "../public/assets/static/logos.png";
 import { isServer } from "../utils/isServer";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
-import Popup from "./Popup";
+import { Popup } from "./Popup";
 
 export interface MenuProps {
 	children: React.ReactNode;

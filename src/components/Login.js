@@ -4,7 +4,7 @@ import data from "../content/loginsignup";
 // import "../styles/Login.css";
 // import "../styles/ErrorMessage.css";
 
-const Login = (props) => {
+const Login = ({ setContentString }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
@@ -99,7 +99,7 @@ const Login = (props) => {
 					<a
 						href='#'
 						onClick={() => {
-							props.setContent("pw reset");
+							setContentString("pw reset");
 						}}
 						className='link-text login-text forgot'
 					>
@@ -115,7 +115,7 @@ const Login = (props) => {
 						<a
 							href='#'
 							onClick={() => {
-								props.setContent("sign up");
+								setContentString("sign up");
 							}}
 							className='link-text bold login-text sign-up-login-text'
 						>

@@ -4,7 +4,7 @@ import data from "../content/loginsignup";
 
 // import Styles from "../styles/SignUp.css";
 
-const SignUp = (props) => {
+const SignUp = ({ setContentString }) => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
@@ -110,7 +110,7 @@ const SignUp = (props) => {
 						<a
 							href='#'
 							onClick={() => {
-								props.setContent("login");
+								setContentString("login");
 							}}
 							className='link-text bold login-text sign-up-login-text'
 						>
