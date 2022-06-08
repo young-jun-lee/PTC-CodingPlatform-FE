@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-// import axios from "axios";
+import { useRegisterMutation } from "../../generated/graphql";
+
 import data from "../content/loginsignup";
 
-// import Styles from "../styles/SignUp.css";
+
 
 const SignUp = ({ setContentString }) => {
 	const [firstName, setFirstName] = useState("");
@@ -10,54 +11,35 @@ const SignUp = ({ setContentString }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-
-	async function signup(e) {
-		e.preventDefault();
-
-		try {
-			const passwordVerify = password;
-			const signupData = {
-				firstName,
-				lastName,
-				email,
-				password,
-				passwordVerify,
-			};
-
-			await axios
-				.post(
-					`${process.env.REACT_APP_BACK_END_ENDPOINT}/auth/sign-up`,
-					signupData,
-					{
-						withCredentials: true,
-					}
-				)
-				.then((res) => {
-					sessionStorage.removeItem("loggedIn");
-					window.location.replace(
-						process.env.REACT_APP_FRONT_END_ENDPOINT
-					);
-				})
-				.catch((err) => {
-					//console.log(err);
-					console.log(err.response); //USE THIS ONE TO GET THE DATA
-					setErrorMessage(err.response.data.errorMessage);
-				});
-		} catch (err) {
-			console.error(err);
-		}
-	}
-
+	const [r, register] = useRegisterMutation();
 	return (
 		<div className='login-component'>
 			<div className='login-body'>
-				<img className='ptc-logo' src={data.ptcIcon}></img>
+				<img className='ptc-logo' src={data.ptcIcon.src}></img>
 
 				<div className='login-text'>
 					To continue, sign up for your <br /> PTC account.
 				</div>
 
-				<form className='login-form' onSubmit={signup}>
+				<form
+					className='login-form'
+					onSubmit={async (values, { setErrors }) => {
+						const response = await register({
+							options: values,
+						});
+						if (response.data?.register.errors) {
+							console.log(
+								toErrorMap(response.data.register.errors)
+							);
+							setErrors(
+								toErrorMap(response.data.register.errors)
+							);
+						} else if (response.data?.register.user) {
+							// register worked, we get a user back
+							router.push("/");
+						}
+					}}
+				>
 					<div className='login-name-input'>
 						<input
 							className='signup-text input-name'

@@ -1,76 +1,41 @@
-import React, { useContext, useState } from "react";
-// import axios from "axios";
+import React, { useState } from "react";
 import data from "../content/loginsignup";
-// import "../styles/Login.css";
-// import "../styles/ErrorMessage.css";
+import { useLoginMutation } from "../generated/graphql";
 
 const Login = ({ setContentString }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
-
-	async function login(e) {
-		e.preventDefault();
-		try {
-			const loginData = {
-				email,
-				password,
-			};
-
-			if (email === "tech@projecttechconferences.com") {
-				console.log("logging into admin");
-				await axios
-					.post(
-						`${process.env.REACT_APP_BACK_END_ENDPOINT}/admin/login-admin-account`,
-						loginData,
-						{
-							withCredentials: true,
-						}
-					)
-					.then((res) => {
-						sessionStorage.removeItem("loggedIn");
-						window.location.replace(
-							process.env.REACT_APP_FRONT_END_ENDPOINT
-						);
-					})
-					.catch((err) => {
-						setErrorMessage(err.response.data.errorMessage);
-					});
-			} else {
-				await axios
-					.post(
-						`${process.env.REACT_APP_BACK_END_ENDPOINT}/auth/login`,
-						loginData,
-						{
-							withCredentials: true,
-						}
-					)
-					.then((res) => {
-						sessionStorage.removeItem("loggedIn");
-						window.location.replace(
-							process.env.REACT_APP_FRONT_END_ENDPOINT
-						);
-					})
-					.catch((err) => {
-						console.log(err.response);
-						setErrorMessage(err.response.data.errorMessage);
-					});
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	}
+	const [l, login] = useLoginMutation();
 
 	return (
 		<div className='login-component'>
 			<div className='login-body'>
-				<img className='ptc-logo' src={data.ptcIcon}></img>
+				<img className='ptc-logo' src={data.ptcIcon.src}></img>
 
 				<div className='login-text login-text-instructions'>
 					To continue, log in to your <br /> PTC account.
 				</div>
 
-				<form className='login-form' onSubmit={login}>
+				<form
+					className='login-form'
+					onSubmit={async (values, { setErrors }) => {
+						const response = await login({
+							usernameOrEmail: values.usernameoOrEmail,
+							password: values.password,
+						});
+						if (response.data?.login.errors) {
+							setErrors(toErrorMap(response.data.login.errors));
+						} else if (response.data?.login.user) {
+							// if we have the query parameter defined for what page it should redirect to
+							if (typeof router.query.next === "string") {
+								router.push(router.query.next);
+							} else {
+								router.push("/");
+							}
+						}
+					}}
+				>
 					<input
 						className='input-text'
 						type='text'

@@ -1,59 +1,34 @@
 import React, { useState } from "react";
-// import axios from "axios";
 import data from "../content/loginsignup";
+import { useForgotPasswordMutation } from "../generated/graphql";
 
-// import Styles from "../styles/SignUp.css";
-
-const ForgotPW = () => {
+const ForgotPW: React.FC<{}> = ({}) => {
 	const [email, setEmail] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState("");
 	const [messageSent, setMessageSent] = useState(false);
-
-	async function resetPassword(e) {
-		e.preventDefault();
-
-		try {
-			const emaild = { email };
-			await axios
-				.post(
-					`${process.env.REACT_APP_BACK_END_ENDPOINT}/auth/pw-request`,
-					emaild,
-					{
-						withCredentials: true,
-					}
-				)
-				.then((res) => {
-					setSuccessMessage(res.data);
-					setMessageSent(true);
-					console.log(messageSent);
-				})
-				.catch((err) => {
-					console.log(err.response);
-					setErrorMessage(err.response.data.errorMessage);
-					setMessageSent(false);
-				});
-		} catch (err) {
-			console.log(err.response);
-			setMessageSent(false);
-		}
-	}
+	const [complete, setComplete] = useState(false);
+	const [, forgotPassword] = useForgotPasswordMutation();
 
 	return (
 		<div className='login-component'>
 			<div className='login-body'>
-				<img className='ptc-logo' src={data.ptcIcon} alt='#'></img>
-
+				<img className='ptc-logo' src={data.ptcIcon.src} alt='#'></img>
 				<div className='forgot-your-password'>
 					Forgot Your Password?
 				</div>
-
 				<div className='forgot-pw-text'>
 					Enter your email address and we'll send you instructions to
 					reset your password
 				</div>
 
-				<form className='login-form' onSubmit={resetPassword}>
+				<form
+					className='login-form'
+					onSubmit={async (values) => {
+						await forgotPassword({ email: values.email });
+						setComplete(true);
+					}}
+				>
 					<input
 						className='input-text forgot-pw-input-email'
 						type='text'
