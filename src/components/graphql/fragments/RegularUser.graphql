@@ -1,0 +1,5 @@
+# any duplicated fields in our schemas, we can redefine as a fragment and reuse them over and over
+fragment RegularUser on User {
+	id
+	username
+}
