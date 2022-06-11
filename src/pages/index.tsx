@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
+import { withUrqlClient } from "next-urql";
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
 import Text from "../content/landing";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Landing: NextPage = () => {
 	return (
@@ -84,4 +86,4 @@ const Landing: NextPage = () => {
 	);
 };
 
-export default Landing;
+export default withUrqlClient(createUrqlClient)(Landing);

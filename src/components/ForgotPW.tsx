@@ -1,14 +1,24 @@
+import { Button } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
 import data from "../content/loginsignup";
 import { useForgotPasswordMutation } from "../generated/graphql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 const ForgotPW: React.FC<{}> = ({}) => {
 	const [email, setEmail] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState("");
 	const [messageSent, setMessageSent] = useState(false);
-	const [complete, setComplete] = useState(false);
 	const [, forgotPassword] = useForgotPasswordMutation();
+
+	const submitForm = async () => {
+		const response = await forgotPassword({ email });
+		console.log(response);
+
+		// setMessageSent(true);
+	};
 
 	return (
 		<div className='login-component'>
@@ -22,13 +32,55 @@ const ForgotPW: React.FC<{}> = ({}) => {
 					reset your password
 				</div>
 
-				<form
-					className='login-form'
-					onSubmit={async (values) => {
-						await forgotPassword({ email: values.email });
-						setComplete(true);
+				<Formik
+					initialValues={{ email: "" }}
+					onSubmit={async () => {
+						const response = await forgotPassword({
+							email,
+						});
+						if (response.data?.forgotPassword.errors) {
+							setErrorMessage(
+								response.data?.forgotPassword.errors[0].message
+							);
+						} else if (response.data?.forgotPassword.success) {
+							setSuccessMessage(
+								response.data?.forgotPassword.success[0].message
+							);
+							setMessageSent(true);
+						}
 					}}
 				>
+					{({ isSubmitting }) =>
+						messageSent ? (
+							<div>{successMessage}</div>
+						) : (
+							<Form>
+								<input
+									className='input-text forgot-pw-input-email'
+									type='text'
+									placeholder='Email address'
+									onChange={(e) => setEmail(e.target.value)}
+									value={email}
+								></input>
+								<div className='message-to-user error-message'>
+									{errorMessage}
+								</div>
+								<div className='message-to-user success-message'>
+									{successMessage}
+								</div>
+								<Button
+									className='input-submit'
+									type='submit'
+									isLoading={isSubmitting}
+								>
+									Reset Password
+								</Button>
+							</Form>
+						)
+					}
+				</Formik>
+
+				{/* <form className='login-form' onSubmit={submitForm}>
 					<input
 						className='input-text forgot-pw-input-email'
 						type='text'
@@ -49,14 +101,13 @@ const ForgotPW: React.FC<{}> = ({}) => {
 					<input
 						className='input-submit'
 						type='submit'
-						placeholder='Create'
 						style={messageSent ? { display: "none" } : {}}
 						disabled={messageSent}
 					></input>
-				</form>
+				</form> */}
 			</div>
 		</div>
 	);
 };
 
-export default ForgotPW;
+export default withUrqlClient(createUrqlClient)(ForgotPW);

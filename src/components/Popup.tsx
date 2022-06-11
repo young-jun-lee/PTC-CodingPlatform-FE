@@ -5,40 +5,41 @@ import ForgotPW from "./ForgotPW";
 
 type PopupProps = {
 	id: string;
-	contentStringProps: string;
+	componentNameProps: string;
+	// login/register/forgotpw
 	trigger: boolean;
 	setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const Popup: React.FC<PopupProps> = ({
 	id,
-	contentStringProps,
+	componentNameProps,
 	trigger,
 	setTrigger,
 }) => {
-	const [contentString, setContentString] = useState("");
-	const [content, setContent] = useState(<></>);
+	const [componentName, setComponentName] = useState("");
+	const [component, setComponent] = useState(<></>);
 
 	const getContents = (componentName: string) => {
 		if (componentName === "login") {
-			setContent(<Login setContentString={setContentString} />);
+			setComponent(<Login setContentString={setComponentName} />);
 			return;
 		}
 		if (componentName === "sign up") {
-			setContent(<SignUp setContentString={setContentString} />);
+			setComponent(<SignUp setContentString={setComponentName} />);
 			return;
 		}
 		if (componentName === "pw reset") {
-			setContent(<ForgotPW />);
+			setComponent(<ForgotPW />);
 		}
 	};
 
 	useEffect(() => {
-		if (contentString === "") {
-			setContentString(contentStringProps);
+		if (componentName === "") {
+			setComponentName(componentNameProps);
 		}
-		getContents(contentString);
-	}, [contentString]);
+		getContents(componentName);
+	}, [componentName]);
 
 	const closeWindow = () => {
 		setTrigger(false);
@@ -50,7 +51,7 @@ export const Popup: React.FC<PopupProps> = ({
 				<button className='close-btn' onClick={() => closeWindow()}>
 					&times;
 				</button>
-				{content}
+				{component}
 			</div>
 		</div>
 	) : (

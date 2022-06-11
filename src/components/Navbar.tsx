@@ -97,7 +97,7 @@ const Navbar = () => {
 				</li>
 
 				{
-					//if you are a logged in user/not admin - see Pleaderboard
+					//if you are a loggedin user/not admin - see Pleaderboard
 					data?.me && !data?.me.isAdmin && (
 						<>
 							<li className='header-text'>
@@ -112,7 +112,6 @@ const Navbar = () => {
 				{
 					//if you are not logged in - see login button
 					!data?.me && (
-						// !status.loggedIn?.loggedIn && (
 						<>
 							<li className='header-text'>
 								<a
@@ -130,7 +129,7 @@ const Navbar = () => {
 										<div className='App'>
 											<Popup
 												id={popupContent}
-												contentStringProps={
+												componentNameProps={
 													popupContent
 												}
 												trigger={buttonPopup}
