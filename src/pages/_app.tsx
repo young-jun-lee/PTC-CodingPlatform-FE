@@ -6,6 +6,7 @@ import "../styles/Nav.css";
 import "../styles/test.css";
 import "../styles/SignUp.css";
 import "../styles/Login.css";
+import "../styles/ErrorMessage.css";
 import type { AppProps } from "next/app";
 import Footer from "../components/Footer";
 

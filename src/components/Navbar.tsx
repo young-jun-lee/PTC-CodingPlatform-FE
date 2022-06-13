@@ -1,9 +1,10 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import codingLogos from "../public/assets/static/logos.png";
+
 import { isServer } from "../utils/isServer";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Popup } from "./Popup";
+import { Button } from "@chakra-ui/react";
 
 export interface MenuProps {
 	children: React.ReactNode;
@@ -64,8 +65,8 @@ const Navbar = () => {
 				<a href='https://www.projecttechconferences.com'>
 					<img
 						className='codingLogo'
-						src={codingLogos.src}
-						alt=''
+						src='/assets/static/logos.png'
+						alt='jfkdls'
 					></img>
 				</a>
 				<div className='title-text'>CODING CHALLENGE</div>
@@ -154,28 +155,31 @@ const Navbar = () => {
 						</>
 					)
 				}
-				{/* 
 				{
 					//if you are logged in - see user name + log out
-					status.?.loggedIn (
+					data?.me && (
 						<>
 							<li className='header-text'>
-								<i href='' className='nav'>
-									{`Hello, ${userText()}`}
-								</i>
+								<i className='nav'>{`Hello, ${userText()}`}</i>
 							</li>
-							<li
-								className='header-text'
-								// onClick={(e) => logOut(e)}
-								onClick={()=> logout()}
-							>
-								<a href='#' className='nav'>
-									Logout
-								</a>
+							<li className='header-text'>
+								<Button
+									isLoading={logoutFetching}
+									onClick={() => {
+										logout();
+										setButtonPopup(false);
+									}}
+									w='100%'
+									bg='white'
+								>
+									<a href='#' className='nav'>
+										Logout
+									</a>
+								</Button>
 							</li>
 						</>
 					)
-				} */}
+				}
 			</ul>
 		</div>
 	);

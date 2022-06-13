@@ -27,14 +27,14 @@
 }
 
 .close-btn {
-	width: fit-content;
+	/* width: fit-content; */
 	align-self: flex-end;
-	color: black;
-	transform: scale(1.2);
-	margin: 0;
-	border: 0 0 0;
+	/* color: black; */
+	/* transform: scale(1.2); */
+	/* margin: 0; */
+	/* border: 0 0 0; */
 	/* width: 0; */
-	background-color: #fff;
+	/* background-color: #fff; */
 }
 
 button {

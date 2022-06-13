@@ -6,19 +6,12 @@ import data from "../content/loginsignup";
 import { useForgotPasswordMutation } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
-const ForgotPW: React.FC<{}> = ({}) => {
+const ForgotPW: React.FC<{ _ }> = () => {
 	const [email, setEmail] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState("");
 	const [messageSent, setMessageSent] = useState(false);
 	const [, forgotPassword] = useForgotPasswordMutation();
-
-	const submitForm = async () => {
-		const response = await forgotPassword({ email });
-		console.log(response);
-
-		// setMessageSent(true);
-	};
 
 	return (
 		<div className='login-component'>
@@ -52,7 +45,12 @@ const ForgotPW: React.FC<{}> = ({}) => {
 				>
 					{({ isSubmitting }) =>
 						messageSent ? (
-							<div>{successMessage}</div>
+							<div
+								className='message-to-user success-message'
+								style={{ marginTop: "8em" }}
+							>
+								{successMessage}
+							</div>
 						) : (
 							<Form>
 								<input
@@ -65,15 +63,17 @@ const ForgotPW: React.FC<{}> = ({}) => {
 								<div className='message-to-user error-message'>
 									{errorMessage}
 								</div>
-								<div className='message-to-user success-message'>
-									{successMessage}
-								</div>
+
 								<Button
-									className='input-submit'
-									type='submit'
 									isLoading={isSubmitting}
+									w='100%'
+									bg='white'
 								>
-									Reset Password
+									<input
+										className='input-submit'
+										type='submit'
+										value='Reset Password'
+									></input>
 								</Button>
 							</Form>
 						)
