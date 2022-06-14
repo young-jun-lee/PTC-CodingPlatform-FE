@@ -2,8 +2,8 @@ import React, { useState, useEffect, InputHTMLAttributes } from "react";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPW from "./ForgotPW";
-import { CloseButton } from "@chakra-ui/react";
-
+import { Box, CloseButton, IconButton, Stack } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 type PopupProps = {
 	id: string;
 	componentNameProps: string;
@@ -49,12 +49,10 @@ export const Popup: React.FC<PopupProps> = ({
 	return trigger ? (
 		<div className='popup' id={id}>
 			<div className='popup-inner'>
-				{/* <button className='close-btn' onClick={() => closeWindow()}> */}
 				<CloseButton
 					className='close-btn'
 					onClick={() => closeWindow()}
 				/>
-				{/* </button> */}
 				{component}
 			</div>
 		</div>

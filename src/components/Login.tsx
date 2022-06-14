@@ -36,7 +36,7 @@ const Login: React.FC<LoginProps> = ({ setComponentName }) => {
 					}}
 				>
 					{({ isSubmitting }) => (
-						<Form>
+						<Form className='login-form'>
 							<input
 								className='input-text'
 								type='text'

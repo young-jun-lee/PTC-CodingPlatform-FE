@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { isServer } from "../utils/isServer";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Popup } from "./Popup";
-import { Button } from "@chakra-ui/react";
+import { Button, CloseButton } from "@chakra-ui/react";
 
 export interface MenuProps {
 	children: React.ReactNode;
@@ -66,7 +66,7 @@ const Navbar = () => {
 					<img
 						className='codingLogo'
 						src='/assets/static/logos.png'
-						alt='jfkdls'
+						alt='PTC'
 					></img>
 				</a>
 				<div className='title-text'>CODING CHALLENGE</div>

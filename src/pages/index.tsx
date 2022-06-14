@@ -1,3 +1,4 @@
+import { Checkbox, CloseButton, Select } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Banner from "../components/Banner";

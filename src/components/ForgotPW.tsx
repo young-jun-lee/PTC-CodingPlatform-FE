@@ -6,7 +6,7 @@ import data from "../content/loginsignup";
 import { useForgotPasswordMutation } from "../generated/graphql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 
-const ForgotPW: React.FC<{ _ }> = () => {
+const ForgotPW: React.FC<{}> = () => {
 	const [email, setEmail] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [successMessage, setSuccessMessage] = useState("");
