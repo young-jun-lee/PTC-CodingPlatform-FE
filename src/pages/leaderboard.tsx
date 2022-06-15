@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 //import axios from 'axios';
 
-import Banner from '../styled_comp/defaults';
+import Banner from '../components/Banner';
 import Navbar from '../components/Navbar';
 // ismport Style from '../styles/Leaderboard.css';
 // import Footer from './Footer';
@@ -28,7 +28,7 @@ const PLeaderboard = () => {
   return (
     <div className="section" id="leaderboard">
       <Navbar />
-      <Banner>Personal Leaderboard</Banner>
+      <Banner page="Leaderboard"></Banner>
       <table>
         <thead>
           <tr className="table-headers">

@@ -1,16 +1,16 @@
-import { Checkbox, CloseButton, Select } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import { withUrqlClient } from "next-urql";
-import Banner from "../components/Banner";
-import Navbar from "../components/Navbar";
-import Text from "../content/landing";
-import { createUrqlClient } from "../utils/createUrqlClient";
+import { Checkbox, CloseButton, Select } from '@chakra-ui/react';
+import type { NextPage } from 'next';
+import { withUrqlClient } from 'next-urql';
+import Banner from '../components/Banner';
+import Navbar from '../components/Navbar';
+import Text from '../content/landing';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
 const Landing: NextPage = () => {
   return (
     <div className="section">
       <Navbar />
-      {/* <Banner>Welcome</Banner> */}
+      <Banner page="Welcome"></Banner>
       <div className="container">
         <div className="landingContainer">
           <div className="aboutPTC landing-box">
