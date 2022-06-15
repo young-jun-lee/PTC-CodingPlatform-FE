@@ -15,88 +15,76 @@ const Login: React.FC<LoginProps> = ({ setComponentName }) => {
 	const [_, login] = useLoginMutation();
 	return (
 		<div className='login-component'>
-			<div className='login-body'>
-				<img className='ptc-logo' src={data.ptcIcon.src}></img>
+			<img className='ptc-logo' src={data.ptcIcon.src}></img>
 
-				<div className='login-text login-text-instructions'>
-					To continue, log in to your <br /> PTC account.
-				</div>
-				<Formik
-					initialValues={{ usernameOrEmail: "", password: "" }}
-					onSubmit={async () => {
-						const response = await login({
-							usernameOrEmail: emailOrUsername,
-							password: password,
-						});
-						if (response.data?.login.errors) {
-							setErrorMessage(
-								response.data?.login.errors[0].message
-							);
-						}
+			<div className='login-text login-text-instructions'>
+				To continue, log in to your <br /> PTC account.
+			</div>
+			<Formik
+				initialValues={{ usernameOrEmail: "", password: "" }}
+				onSubmit={async () => {
+					const response = await login({
+						usernameOrEmail: emailOrUsername,
+						password: password,
+					});
+					if (response.data?.login.errors) {
+						setErrorMessage(response.data?.login.errors[0].message);
+					}
+				}}
+			>
+				{({ isSubmitting }) => (
+					<Form className='login-form'>
+						<input
+							className='input-text'
+							type='text'
+							placeholder='Email or Username'
+							onChange={(e) => setEmailOrUsername(e.target.value)}
+							value={emailOrUsername}
+						></input>
+						<input
+							className='input-text'
+							type='password'
+							placeholder='Password'
+							onChange={(e) => setPassword(e.target.value)}
+							value={password}
+						></input>
+						<div className='error-message message-to-user'>
+							{errorMessage}
+						</div>
+						<Button isLoading={isSubmitting} w='100%' bg='white'>
+							<input
+								className='input-submit'
+								type='submit'
+								value='Sign In'
+							></input>
+						</Button>
+					</Form>
+				)}
+			</Formik>
+			<div className='login-reset-sign-up'>
+				<a
+					href='#'
+					onClick={() => {
+						setComponentName("pw reset");
 					}}
+					className='link-text login-text forgot'
 				>
-					{({ isSubmitting }) => (
-						<Form className='login-form'>
-							<input
-								className='input-text'
-								type='text'
-								placeholder='Email or Username'
-								onChange={(e) =>
-									setEmailOrUsername(e.target.value)
-								}
-								value={emailOrUsername}
-							></input>
-							<input
-								className='input-text'
-								type='password'
-								placeholder='Password'
-								onChange={(e) => setPassword(e.target.value)}
-								value={password}
-							></input>
-							<div className='error-message message-to-user'>
-								{errorMessage}
-							</div>
-							<Button
-								isLoading={isSubmitting}
-								w='100%'
-								bg='white'
-							>
-								<input
-									className='input-submit'
-									type='submit'
-									value='Sign In'
-								></input>
-							</Button>
-						</Form>
-					)}
-				</Formik>
-				<div className='login-reset-sign-up'>
+					Forgot your password?
+				</a>
+
+				<hr className='line'></hr>
+
+				<div className='sign-up-line inline-child'>
+					<div className='login-text'>Don't have an account yet?</div>
 					<a
 						href='#'
 						onClick={() => {
-							setComponentName("pw reset");
+							setComponentName("sign up");
 						}}
-						className='link-text login-text forgot'
+						className='link-text bold login-text sign-up-login-text'
 					>
-						Forgot your password?
+						<b>Sign up now</b>
 					</a>
-
-					<hr className='line'></hr>
-
-					<div className='sign-up-line inline-child'>
-						<div className='login-text'>
-							Don't have an account yet?
-						</div>
-						<a
-							href='#'
-							onClick={() => {
-								setComponentName("sign up");
-							}}
-							className='link-text bold login-text sign-up-login-text'
-						>
-							<b>Sign up now</b>
-						</a>
-					</div>
 				</div>
 			</div>
 		</div>
