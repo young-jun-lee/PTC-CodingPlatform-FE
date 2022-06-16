@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 //import axios from 'axios';
 
-import Navbar from "../components/Navbar";
-import Banner from "../components/Banner";
+import Banner from '../components/Banner';
+import Navbar from '../components/Navbar';
 // ismport Style from '../styles/Leaderboard.css';
 // import Footer from './Footer';
 // import { formatMongoData } from '../content/PLeaderboardFunction/pLeaderboardFunctions';
@@ -25,6 +25,7 @@ const PLeaderboard = () => {
 	//     getPLeaderboardInfo();
 	//   }, []);
 
+<<<<<<< HEAD
 	return (
 		<div className='section' id='leaderboard'>
 			<Navbar />
@@ -39,6 +40,22 @@ const PLeaderboard = () => {
 				</thead>
 				<tbody>
 					{/* {pLeaderboardInfo.map((question, index) => (
+=======
+  return (
+    <div className="section" id="leaderboard">
+      <Navbar />
+      <Banner page="Leaderboard"></Banner>
+      <table>
+        <thead>
+          <tr className="table-headers">
+            <th className="titleHeader">Week</th>
+            <th className="titleHeader">Question</th>
+            <th className="titleHeader">Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/* {pLeaderboardInfo.map((question, index) => (
+>>>>>>> 8d94629284acef7946ddac7b557905caae827e83
             <tr key={index}>
               <td>{question.week}</td>
               <td>{`Question ${question.question} - Part ${question.part}`}</td>
