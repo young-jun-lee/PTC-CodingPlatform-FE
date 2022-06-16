@@ -10,7 +10,7 @@ const Landing: NextPage = () => {
 	return (
 		<div className='section'>
 			<Navbar />
-			<Banner page='Welcome' />
+			<Banner page='Welcome'>Welcome</Banner>
 			<div className='container'>
 				<div className='landingContainer'>
 					<div className='aboutPTC landing-box'>

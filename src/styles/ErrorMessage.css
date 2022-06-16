@@ -1,15 +1,16 @@
-.message-to-user{
-    font-family: Barlow;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 17px;
+.message-to-user {
+	font-family: Barlow;
+	font-style: normal;
+	font-weight: bold;
+	margin-bottom: 1em;
+	font-size: 14px;
+	line-height: 17px;
 }
 
-.error-message{
-    color: #EA4335;
+.error-message {
+	color: #ea4335;
 }
 
-.success-message{
-    color:#34A853;
+.success-message {
+	color: #34a853;
 }

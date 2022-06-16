@@ -15,72 +15,69 @@ const ForgotPW: React.FC<{}> = () => {
 
 	return (
 		<div className='login-component'>
-			<div className='login-body'>
-				<img className='ptc-logo' src={data.ptcIcon.src} alt='#'></img>
-				<div className='forgot-your-password'>
-					Forgot Your Password?
-				</div>
-				<div className='forgot-pw-text'>
-					Enter your email address and we'll send you instructions to
-					reset your password
-				</div>
+			<img className='ptc-logo' src={data.ptcIcon.src} alt='#'></img>
+			<div className='forgot-your-password'>Forgot Your Password?</div>
+			<div className='forgot-pw-text'>
+				Enter your email address and we'll send you instructions to
+				reset your password
+			</div>
 
-				<Formik
-					initialValues={{ email: "" }}
-					onSubmit={async () => {
-						const response = await forgotPassword({
-							email,
-						});
-						if (response.data?.forgotPassword.errors) {
-							setErrorMessage(
-								response.data?.forgotPassword.errors[0].message
-							);
-						} else if (response.data?.forgotPassword.success) {
-							setSuccessMessage(
-								response.data?.forgotPassword.success[0].message
-							);
-							setMessageSent(true);
-						}
-					}}
-				>
-					{({ isSubmitting }) =>
-						messageSent ? (
-							<div
-								className='message-to-user success-message'
-								style={{ marginTop: "8em" }}
-							>
-								{successMessage}
-							</div>
-						) : (
-							<Form>
-								<input
-									className='input-text forgot-pw-input-email'
-									type='text'
-									placeholder='Email address'
-									onChange={(e) => setEmail(e.target.value)}
-									value={email}
-								></input>
-								<div className='message-to-user error-message'>
-									{errorMessage}
-								</div>
-
-								<Button
-									isLoading={isSubmitting}
-									w='100%'
-									bg='white'
-								>
-									<input
-										className='input-submit'
-										type='submit'
-										value='Reset Password'
-									></input>
-								</Button>
-							</Form>
-						)
+			<Formik
+				initialValues={{ email: "" }}
+				onSubmit={async () => {
+					const response = await forgotPassword({
+						email,
+					});
+					if (response.data?.forgotPassword.errors) {
+						setErrorMessage(
+							response.data?.forgotPassword.errors[0].message
+						);
+					} else if (response.data?.forgotPassword.success) {
+						setSuccessMessage(
+							response.data?.forgotPassword.success[0].message
+						);
+						setMessageSent(true);
 					}
-				</Formik>
+				}}
+			>
+				{({ isSubmitting }) =>
+					messageSent ? (
+						<div
+							className='message-to-user success-message'
+							style={{ marginTop: "8em" }}
+						>
+							{successMessage}
+						</div>
+					) : (
+						<Form>
+							<input
+								className='input-text forgot-pw-input-email'
+								type='text'
+								placeholder='Email address'
+								onChange={(e) => setEmail(e.target.value)}
+								value={email}
+							></input>
+							<div className='message-to-user error-message'>
+								{errorMessage}
+							</div>
 
-				{/* <form className='login-form' onSubmit={submitForm}>
+							<Button
+								isLoading={isSubmitting}
+								w='100%'
+								bg='white'
+							>
+								<input
+									className='input-submit'
+									type='submit'
+									value='Reset Password'
+								></input>
+							</Button>
+						</Form>
+					)
+				}
+			</Formik>
+
+			{/* <form className='login-form' onSubmit={submitForm}>
 					<input
 						className='input-text forgot-pw-input-email'
 						type='text'
@@ -105,7 +102,6 @@ const ForgotPW: React.FC<{}> = () => {
 						disabled={messageSent}
 					></input>
 				</form> */}
-			</div>
 		</div>
 	);
 };

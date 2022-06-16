@@ -7,7 +7,8 @@
 	text-align: center;
 	justify-content: center;
 	width: 100%;
-	height: 80%;
+	height: 70%;
+	margin-top: 2.5em;
 }
 
 .ptc-logo {
@@ -26,20 +27,24 @@
 }
 
 .login-form {
+	display: flex;
+	flex-direction: column;
+	/* gap: 8%; */
 }
 
 input {
 	font-family: barlow;
-	font-size: 18px;
-	/* display: block; */
-	/* margin: 20px auto; */
-	/* padding: 15px 0; */
-	border-radius: 16px;
+	font-size: 25px;
+	border-radius: 1.2em;
 	border: 1px solid #d5d5d5;
+	height: 4em;
 }
 
 .input-text {
-	width: 340px;
+	width: 90%;
+	/* height: 4em; */
+	font-size: 1em;
+	margin-bottom: 1em;
 	color: #808080;
 	padding-left: 20px;
 	align-self: center;
@@ -48,7 +53,7 @@ input {
 
 .input-submit {
 	width: 100%;
-	margin: 30px 0;
+	height: 3em;
 	background: #1b9cf7;
 	color: white;
 	font-weight: 700;
@@ -63,34 +68,20 @@ input {
 	display: inline-block;
 }
 
+.login-reset-sign-up {
+	margin-top: 3em;
+	display: flex;
+	flex-direction: column;
+	width: 90%;
+	align-self: center;
+}
+
 .line {
 	background-color: #555555;
 	margin: 15px 0px;
+	height: 1.5px;
 }
 
 .sign-up-login-text {
 	margin: 0 5px;
-}
-
-.forgot-your-password {
-	font-family: Barlow;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 24px;
-	line-height: 29px;
-	text-align: center;
-}
-
-.forgot-pw-text {
-	font-family: Barlow;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 18px;
-	line-height: 22px;
-	text-align: center;
-	padding-top: 30px;
-}
-
-.forgot-pw-input-email {
-	width: 94%;
 }

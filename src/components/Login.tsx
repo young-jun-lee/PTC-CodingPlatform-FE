@@ -16,7 +16,6 @@ const Login: React.FC<LoginProps> = ({ setComponentName }) => {
 	return (
 		<div className='login-component'>
 			<img className='ptc-logo' src={data.ptcIcon.src}></img>
-
 			<div className='login-text login-text-instructions'>
 				To continue, log in to your <br /> PTC account.
 			</div>
