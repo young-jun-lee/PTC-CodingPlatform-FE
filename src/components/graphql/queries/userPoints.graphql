@@ -1,0 +1,8 @@
+query UserPoints($username: String!) {
+	userPoints(username: $username) {
+		week
+		question
+		part
+		points
+	}
+}

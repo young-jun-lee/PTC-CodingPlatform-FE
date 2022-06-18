@@ -56,6 +56,25 @@ export type Query = {
   __typename?: 'Query';
   listUsers?: Maybe<Array<User>>;
   me?: Maybe<User>;
+  userPoints?: Maybe<Array<Submissions>>;
+};
+
+
+export type QueryUserPointsArgs = {
+  username: Scalars['String'];
+};
+
+export type Submissions = {
+  __typename?: 'Submissions';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  part: Scalars['String'];
+  points: Scalars['Int'];
+  question: Scalars['Int'];
+  updatedAt: Scalars['String'];
+  updates: Scalars['Int'];
+  username: Scalars['String'];
+  week: Scalars['Int'];
 };
 
 export type User = {
@@ -66,6 +85,7 @@ export type User = {
   id: Scalars['Int'];
   isAdmin: Scalars['Boolean'];
   lastName: Scalars['String'];
+  totalPoints: Scalars['Int'];
   updatedAt: Scalars['String'];
   username: Scalars['String'];
 };
@@ -130,6 +150,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', isAdmin: boolean, id: number, username: string } | null };
+
+export type UserPointsQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type UserPointsQuery = { __typename?: 'Query', userPoints?: Array<{ __typename?: 'Submissions', week: number, question: number, part: string, points: number }> | null };
 
 export const RegularMessageFragmentDoc = gql`
     fragment RegularMessage on MessageField {
@@ -222,4 +249,18 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const UserPointsDocument = gql`
+    query UserPoints($username: String!) {
+  userPoints(username: $username) {
+    week
+    question
+    part
+    points
+  }
+}
+    `;
+
+export function useUserPointsQuery(options: Omit<Urql.UseQueryArgs<UserPointsQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPointsQuery>({ query: UserPointsDocument, ...options });
 };

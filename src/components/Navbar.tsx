@@ -102,7 +102,10 @@ const Navbar = () => {
 					data?.me && !data?.me.isAdmin && (
 						<>
 							<li className='header-text'>
-								<a href='/personal-leaderboard' className='nav'>
+								<a
+									href={`personal-leaderboard/${userText()}`}
+									className='nav'
+								>
 									Personal Leaderboard
 								</a>
 							</li>

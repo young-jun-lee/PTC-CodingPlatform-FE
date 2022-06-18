@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrqlClient";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 import { useState } from "react";
-import Banner from "../components/Banner";
-import Navbar from "../components/Navbar";
-import { useUserPointsQuery } from "../generated/graphql";
+import Banner from "../../components/Banner";
+import Navbar from "../../components/Navbar";
+import { useUserPointsQuery } from "../../generated/graphql";
 // import Style from "../styles/Leaderboard.css";
 // import { formatMongoData } from "../content/PLeaderboardFunction/pLeaderboardFunctions";
 
-const Leaderboard = () => {
+const PLeaderboard = () => {
 	const [pLeaderboardInfo, setPLeaderboardInfo] = useState();
 	const [pLeaderboardInfoSub, setPLeaderboardInfoSub] = useState([]);
 	const [variables, setVariables] = useState({
@@ -17,13 +17,33 @@ const Leaderboard = () => {
 	const [{ data, fetching }] = useUserPointsQuery({ variables });
 	const router = useRouter();
 
+	// console.log(variables);
+	// const username =
+	// 	typeof router.query.username === "string" ? router.query.username : "";
+	// const getPLeaderboardInfo = async () => {
+	// 	const results = useUserPointsQuery({
+	// 		variables,
+	// 	});
+	// 	const resultsPoints = results[0].data?.userPoints;
+
+	// 	// console.log(typeof results[0].data?.userPoints);
+	// 	setPLeaderboardInfo(resultsPoints);
+	// 	// return results[0].data?.userPoints;
+	// };
+	// const results = getPLeaderboardInfo();
+	// console.log(data);
+
+	// console.log(router.query.username);
+	// useEffect(() => {
+	// 	getPLeaderboardInfo();
+	// }, []);
 	if (!fetching && !data) {
 		return <div>Query returned no results.</div>;
 	}
 	return (
 		<div className='section' id='leaderboard'>
 			<Navbar />
-			<Banner page='Leaderboard' />
+			<Banner page='Personal Leaderboard' />
 			{!data?.userPoints && fetching ? (
 				<p>data is loading...</p>
 			) : (
@@ -55,4 +75,4 @@ const Leaderboard = () => {
 	);
 };
 
-export default withUrqlClient(createUrqlClient)(Leaderboard);
+export default withUrqlClient(createUrqlClient)(PLeaderboard);
