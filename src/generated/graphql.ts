@@ -56,6 +56,7 @@ export type Query = {
   __typename?: 'Query';
   listUsers?: Maybe<Array<User>>;
   me?: Maybe<User>;
+  topScores?: Maybe<Array<Submissions>>;
   userPoints?: Maybe<Array<Submissions>>;
 };
 
@@ -71,6 +72,7 @@ export type Submissions = {
   part: Scalars['String'];
   points: Scalars['Int'];
   question: Scalars['Int'];
+  rank: Scalars['Float'];
   updatedAt: Scalars['String'];
   updates: Scalars['Int'];
   username: Scalars['String'];
@@ -150,6 +152,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', isAdmin: boolean, id: number, username: string } | null };
+
+export type TopScoresQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'Submissions', username: string, points: number, rank: number }> | null };
 
 export type UserPointsQueryVariables = Exact<{
   username: Scalars['String'];
@@ -249,6 +256,19 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const TopScoresDocument = gql`
+    query TopScores {
+  topScores {
+    username
+    points
+    rank
+  }
+}
+    `;
+
+export function useTopScoresQuery(options?: Omit<Urql.UseQueryArgs<TopScoresQueryVariables>, 'query'>) {
+  return Urql.useQuery<TopScoresQuery>({ query: TopScoresDocument, ...options });
 };
 export const UserPointsDocument = gql`
     query UserPoints($username: String!) {

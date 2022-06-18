@@ -1,0 +1,7 @@
+query TopScores {
+	topScores {
+		username
+		points
+		rank
+	}
+}
