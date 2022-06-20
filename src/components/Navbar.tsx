@@ -15,6 +15,7 @@ const Navbar = () => {
 	const [{ data, fetching }] = useMeQuery({
 		pause: isServer(),
 	});
+	const numWeeks = 3;
 	const Menu = (props: MenuProps) => {
 		const [isOpen, setIsOpen] = React.useState(false);
 		const [head, ...tail] = React.Children.toArray(props.children);
@@ -34,14 +35,13 @@ const Navbar = () => {
 	const menuInstance = (
 		<Menu>
 			<div className='nav'>Challenges</div>
-			{/* <Item onClick={() => alert("Link one clicked!")}>Challenges</Item> */}
-			<Link href='/challenges'>
+			<Link href='/challenges/week1'>
 				<div className='item'>Week 1</div>
 			</Link>
-			<Link href='/challenges'>
+			<Link href='/challenges/week2'>
 				<div className='item'>Week 2</div>
 			</Link>
-			<Link href='/challenges'>
+			<Link href='/challenges/week3'>
 				<div className='item'>Week 3</div>
 			</Link>
 		</Menu>

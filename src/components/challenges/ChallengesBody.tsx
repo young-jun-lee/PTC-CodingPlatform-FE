@@ -1,54 +1,54 @@
-import React from 'react';
-import Tabs from './Tabs';
-import '../../styles/ChallengesBody.css';
+import React, { FC } from "react";
+import Tabs from "./Tabs";
 
-const ChallengesBody = (props) => {
-  const authWeek = (week) => {
-    var authWeek;
+interface Page {
+	week: number;
+}
 
-    const today = new Date(Date.now());
+const ChallengesBody: FC<Page> = ({ week }) => {
+	const authWeek = () => {
+		var authWeek;
 
-    const week1Start = new Date(Date.UTC(2021, 6, 5, 4, 0, 0));
-    const week2Start = new Date(Date.UTC(2021, 6, 12, 4, 0, 0));
-    const week3Start = new Date(Date.UTC(2021, 6, 19, 4, 0, 0));
-    const week4Start = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
-    if (today.getTime() > week4Start.getTime()) {
-      console.log('challenges: week 4 started');
-      authWeek = 4;
-    } else if (today.getTime() > week3Start.getTime()) {
-      console.log('challenges: week 3 started');
-      authWeek = 3;
-    } else if (today.getTime() > week2Start.getTime()) {
-      console.log('challenges: week 2 started');
-      authWeek = 2;
-    } else if (today.getTime() > week1Start.getTime()) {
-      console.log('challenges: week 1 started');
-      authWeek = 1;
-    } else {
-      console.log('challenges: comp not started yet');
-      authWeek = 0;
-    }
+		const today = new Date(Date.now());
 
-    if (week <= authWeek) {
-      return true;
-    }
-    return false;
-  };
+		const week1Start = new Date(Date.UTC(2021, 6, 5, 4, 0, 0));
+		const week2Start = new Date(Date.UTC(2021, 6, 12, 4, 0, 0));
+		const week3Start = new Date(Date.UTC(2021, 6, 19, 4, 0, 0));
+		const week4Start = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
+		if (today.getTime() > week4Start.getTime()) {
+			console.log("challenges: week 4 started");
+			authWeek = 4;
+		} else if (today.getTime() > week3Start.getTime()) {
+			console.log("challenges: week 3 started");
+			authWeek = 3;
+		} else if (today.getTime() > week2Start.getTime()) {
+			console.log("challenges: week 2 started");
+			authWeek = 2;
+		} else if (today.getTime() > week1Start.getTime()) {
+			console.log("challenges: week 1 started");
+			authWeek = 1;
+		} else {
+			console.log("challenges: comp not started yet");
+			authWeek = 0;
+		}
 
-  const viewWeek = authWeek(props.week);
+		return week <= authWeek ? true : false;
+	};
 
-  return (
-    <div className="section" id="home">
-      {viewWeek && (
-        <div className="challenges-container">
-          <Tabs week={props.week} />
-        </div>
-      )}
-      {!viewWeek && (
-        <div>{`You are not authorized to see week ${props.week} yet.`}</div>
-      )}
-    </div>
-  );
+	const viewWeek = authWeek();
+
+	return (
+		<div className='section' id='home'>
+			{viewWeek && (
+				<div className='challenges-container'>
+					<Tabs week={week} />
+				</div>
+			)}
+			{!viewWeek && (
+				<div>{`You are not authorized to see week ${week} yet.`}</div>
+			)}
+		</div>
+	);
 };
 
 export default ChallengesBody;
