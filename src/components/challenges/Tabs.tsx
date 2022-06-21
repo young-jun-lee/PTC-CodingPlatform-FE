@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Problem from "./Problem";
-
+import { WeekProps } from "../../common/Interfaces";
 // import Content from "../../../content/Questions/week1";
 import Content from "../../content/questions/week1";
 
-const Tabs = (props) => {
+const Tabs: FC<WeekProps> = ({ week }) => {
 	const [toggleState, setToggleState] = useState(1);
 
 	function toggleTab(index: number) {
@@ -67,7 +67,7 @@ const Tabs = (props) => {
 								: "content"
 						}
 					>
-						<Problem number={1} week={props.week} />
+						<Problem questionNum={1} week={week} />
 					</div>
 
 					<div
@@ -77,7 +77,7 @@ const Tabs = (props) => {
 								: "content"
 						}
 					>
-						<Problem number={2} week={props.week} />
+						<Problem questionNum={2} week={week} />
 					</div>
 
 					<div
@@ -87,7 +87,7 @@ const Tabs = (props) => {
 								: "content"
 						}
 					>
-						<Problem number={3} week={props.week} />
+						<Problem questionNum={3} week={week} />
 					</div>
 				</div>
 			</div>

@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, FC } from "react";
+import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
 import ScrollableMenu from "./ScrollableMenu";
 
-const Part = (props) => {
+const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
 	const [submitMessage, setSubmitMessage] = useState("");
 	const [disabled, setDisabled] = useState(false);
@@ -10,7 +11,7 @@ const Part = (props) => {
 	// const { handleUpload, progress } = useAWSUpload();
 
 	// const status = useContext(AuthContext);
-	const week = props.week;
+	// const week = props.week;
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
@@ -30,13 +31,13 @@ const Part = (props) => {
 		const week3End = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
 		const week4End = new Date(Date.UTC(2021, 7, 2, 4, 0, 0));
 
-		if (props.week === "4" && today.getTime() > week4End.getTime()) {
+		if (week === 4 && today.getTime() > week4End.getTime()) {
 			return false;
-		} else if (props.week === "3" && today.getTime() > week3End.getTime()) {
+		} else if (week === 3 && today.getTime() > week3End.getTime()) {
 			return false;
-		} else if (props.week === "2" && today.getTime() > week2End.getTime()) {
+		} else if (week === 2 && today.getTime() > week2End.getTime()) {
 			return false;
-		} else if (props.week === "1" && today.getTime() > week1End.getTime()) {
+		} else if (week === 1 && today.getTime() > week1End.getTime()) {
 			return false;
 		} else {
 			return true;
@@ -114,19 +115,19 @@ const Part = (props) => {
 	};
 
 	return (
-		<div key={props.thisPart.part}>
-			<div className='part-title'>{`PART ${props.thisPart.part} [${props.thisPart.points} POINTS]`}</div>
+		<div key={problemKeys.part}>
+			<div className='part-title'>{`PART ${problemKeys.part} [${problemKeys.points} POINTS]`}</div>
 			<hr className='linebreak'></hr>
-			<div className='part-text'>{props.thisPart.problemDescription}</div>
+			<div className='part-text'>{problemKeys.problemDescription}</div>
 			<div className='part-subtitle part-grid'>
 				<div>Input</div>
 				<div className='part-italics'>Sample Input</div>
 			</div>
 			<hr className='linebreak'></hr>
 			<div className='part-text part-grid'>
-				<div>{props.thisPart.inputSpecification}</div>
+				<div>{problemKeys.inputSpecification}</div>
 				<div className='part-sample'>
-					{getData(props.thisPart.sampleInput)}
+					{getData(problemKeys.sampleInput)}
 				</div>
 			</div>
 
@@ -136,9 +137,9 @@ const Part = (props) => {
 			</div>
 			<hr className='linebreak'></hr>
 			<div className='part-text part-grid'>
-				<div>{props.thisPart.outputSpecification}</div>
+				<div>{problemKeys.outputSpecification}</div>
 				<div className='part-sample'>
-					{getData(props.thisPart.sampleOutput)}
+					{getData(problemKeys.sampleOutput)}
 				</div>
 			</div>
 
@@ -149,23 +150,23 @@ const Part = (props) => {
 			<hr></hr>
 			<div className='part-grid part-text'>
 				<div className='add-hints'>
-					{props.thisPart?.hints?.map((hint) => (
-						<>
+					{problemKeys?.hints?.map((hint, index) => (
+						<div key={index}>
 							<a className='hint-links' href={hint.link}>
 								{hint.text}
 							</a>
 							<br />
-						</>
+						</div>
 					))}
 				</div>
 				<form
 					className='problem-button-container'
-					//onSubmit={(e) => onSubmit(e, props.thisPart.part)}
+					//onSubmit={(e) => onSubmit(e, props.problemKeys.part)}
 				>
 					{/* {status.loggedIn?.admin && (
 						<>
 							<ScrollableMenu
-								question={`${week}${props.questionNum}${props.thisPart.part}`}
+								question={`${week}${props.questionNum}${props.problemKeys.part}`}
 							/>
 						</>
 					)}
@@ -191,7 +192,7 @@ const Part = (props) => {
 										disabled={disabled}
 										type='submit'
 										onClick={(e) =>
-											onSubmit(e, props.thisPart.part)
+											onSubmit(e, props.problemKeys.part)
 										}
 										className='file-submit-button problem-button'
 										style={
@@ -218,7 +219,7 @@ const Part = (props) => {
 							<button
 								className='problem-button file-submit-button view-button'
 								onClick={(e) =>
-									viewSubmission(e, props.thisPart.part)
+									viewSubmission(e, props.problemKeys.part)
 								}
 							>
 								View Submission

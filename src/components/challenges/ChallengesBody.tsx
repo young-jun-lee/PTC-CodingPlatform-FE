@@ -1,13 +1,10 @@
 import React, { FC } from "react";
+import { WeekProps } from "../../common/Interfaces";
 import Tabs from "./Tabs";
 
-interface Page {
-	week: number;
-}
-
-const ChallengesBody: FC<Page> = ({ week }) => {
+const ChallengesBody: FC<WeekProps> = ({ week }) => {
 	const authWeek = () => {
-		var authWeek;
+		let releaseWeek;
 
 		const today = new Date(Date.now());
 
@@ -17,22 +14,22 @@ const ChallengesBody: FC<Page> = ({ week }) => {
 		const week4Start = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
 		if (today.getTime() > week4Start.getTime()) {
 			console.log("challenges: week 4 started");
-			authWeek = 4;
+			releaseWeek = 4;
 		} else if (today.getTime() > week3Start.getTime()) {
 			console.log("challenges: week 3 started");
-			authWeek = 3;
+			releaseWeek = 3;
 		} else if (today.getTime() > week2Start.getTime()) {
 			console.log("challenges: week 2 started");
-			authWeek = 2;
+			releaseWeek = 2;
 		} else if (today.getTime() > week1Start.getTime()) {
 			console.log("challenges: week 1 started");
-			authWeek = 1;
+			releaseWeek = 1;
 		} else {
 			console.log("challenges: comp not started yet");
-			authWeek = 0;
+			releaseWeek = 0;
 		}
-
-		return week <= authWeek ? true : false;
+		return true;
+		// return week <= releaseWeek ? true : false;
 	};
 
 	const viewWeek = authWeek();

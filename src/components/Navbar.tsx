@@ -35,13 +35,13 @@ const Navbar = () => {
 	const menuInstance = (
 		<Menu>
 			<div className='nav'>Challenges</div>
-			<Link href='/challenges/week1'>
+			<Link href='/challenges/1'>
 				<div className='item'>Week 1</div>
 			</Link>
-			<Link href='/challenges/week2'>
+			<Link href='/challenges/2'>
 				<div className='item'>Week 2</div>
 			</Link>
-			<Link href='/challenges/week3'>
+			<Link href='/challenges/3'>
 				<div className='item'>Week 3</div>
 			</Link>
 		</Menu>

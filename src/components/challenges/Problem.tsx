@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 // import axios from "axios";
 import Part from "./Part";
 // import style from "../../styles/Problem.css";
 import Week1Content from "../../content/questions/week1";
+import { ProblemProps } from "../../common/Interfaces";
 // import Week2Content from "../../content/questions/Week2";
 // import Week3Content from "../../content/questions/Week3";
 // import Week4Content from "../../content/questions/Week4";
 
-const Problem = (props) => {
-	const questionNum = props.number - 1;
+const Problem: FC<ProblemProps> = ({ questionNum, week }) => {
+	const questionKey = questionNum - 1;
 
 	const getContent = () => {
 		return Week1Content;
@@ -27,24 +28,27 @@ const Problem = (props) => {
 	return (
 		<div className='section' id='home'>
 			<div className='problem-container'>
-				<div className='problem-title' key={props.number}>
-					{`PROBLEM ${props.number} : ${content.Problems[questionNum].Title}`}
+				<div className='problem-title' key={questionKey}>
+					{`PROBLEM ${questionNum} : ${content.Problems[questionKey].Title}`}
 				</div>
 
 				<div className='paragraph-container'>
 					<div className='paragraph-text'>
-						{content.Problems[questionNum].Paragraph}
+						{content.Problems[questionKey].Paragraph}
 					</div>
 				</div>
 
 				<div className='question-parts'>
-					{content.Problems[questionNum].Parts.map((thisPart) => (
-						<Part
-							thisPart={thisPart}
-							questionNum={props.number}
-							week={props.week}
-						/>
-					))}
+					{content.Problems[questionKey].Parts.map(
+						(problemKeys, index) => (
+							<Part
+								problemKeys={problemKeys}
+								questionNum={questionNum}
+								week={week}
+								key={index}
+							/>
+						)
+					)}
 				</div>
 			</div>
 		</div>

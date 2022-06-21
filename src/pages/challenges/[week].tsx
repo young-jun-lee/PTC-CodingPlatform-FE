@@ -6,22 +6,23 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 
 const Challenges: NextPage<{ week: string }> = () => {
-	const themes = {
-		week1: "Basics",
-		week2: "Math",
-		week3: "Dynamic Programming",
-		week4: "Combo",
+	const themes: any = {
+		1: "Basics",
+		2: "Math",
+		3: "Dynamic Programming",
+		4: "Combo",
 	};
 	const router = useRouter();
-
+	console.log(router.query.week);
+	const week = parseInt(
+		typeof router.query.week === "string" ? router.query.week : ""
+	);
+	console.log(`week: ${week}`);
 	return (
 		<div className='section' id='home'>
 			<Navbar />
-			{console.log(router.query)}
-			<Banner
-				page={`${router.query.week} : ${themes[router.query.week]}`}
-			/>
-			<ChallengesBody week={`${router.query.week}`} />
+			<Banner page={`Week ${week} : ${themes[week]}`} />
+			<ChallengesBody week={week} />
 		</div>
 	);
 };
