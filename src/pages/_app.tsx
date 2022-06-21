@@ -11,6 +11,7 @@ import "../styles/ErrorMessage.css";
 import "../styles/RulesBody.css";
 import "../styles/Leaderboard.css";
 import "../styles/ChallengesBody.css";
+import "../styles/Problem.css";
 import type { AppProps } from "next/app";
 import Footer from "../components/Footer";
 import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";

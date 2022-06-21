@@ -86,13 +86,13 @@ const Navbar = () => {
 				</li>
 
 				<li className='header-text'>
-					<a href='rules' className='nav'>
+					<a href='/rules' className='nav'>
 						Rules
 					</a>
 				</li>
 
 				<li className='header-text'>
-					<a href='leaderboard' className='nav'>
+					<a href='/leaderboard' className='nav'>
 						Leaderboard
 					</a>
 				</li>

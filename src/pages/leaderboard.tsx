@@ -15,9 +15,14 @@ const Leaderboard = () => {
 	const [{ data, fetching }] = useTopScoresQuery();
 	const router = useRouter();
 
-	console.log(data);
 	if (!fetching && !data) {
-		return <div>Query returned no results.</div>;
+		return (
+			<div className='section' id='leaderboard'>
+				<Navbar />
+				<Banner page='TOP 10 Leaderboard' />
+				<div>Query returned no results.</div>
+			</div>
+		);
 	}
 	return (
 		<div className='section' id='leaderboard'>

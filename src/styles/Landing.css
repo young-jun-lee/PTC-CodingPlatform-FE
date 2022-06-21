@@ -1,84 +1,88 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400&display=swap");
 .section {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
 }
 
 .container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 .landingContainer {
-  width: 90%;
-  flex-direction: column;
-  font-family: Raleway;
-  font-weight: 500;
+	width: 90%;
+	flex-direction: column;
+	font-family: Raleway;
+	font-weight: 500;
 }
 
 .welcomeContent {
-  color: black;
+	color: black;
 }
 
 .sponsImages {
-  margin-top: 1vw;
-  width: 40%;
+	margin-top: 1vw;
+	width: 40%;
 }
 .sponsImages.angstrom {
-  margin-right: 8vw;
+	margin-right: 8vw;
 }
 
 .landing-box {
-  padding: 0 0 15px 0;
+	padding: 0 0 15px 0;
 }
 
 .landingTitle {
-  font-family: Raleway;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 29px;
+	font-family: Raleway;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
 }
 
 .landingContainer a {
-  text-decoration: underline;
-  color: black;
-  font-weight: 500;
+	text-decoration: underline;
+	color: black;
+	font-weight: 500;
 }
 .landingContainer .ptcMedia {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 .landingContainer .ptcMedia a {
-  text-decoration: none;
+	text-decoration: none;
 }
 .landingContainer .aboutTitle {
-  color: #ff424f;
+	color: #ff424f;
 }
 .landingContainer .whatTitle {
-  color: #ff6830;
+	color: #ff6830;
 }
 .landingContainer .learningTitle {
-  color: #ff8b0f;
+	color: #ff8b0f;
 }
 .landingContainer .getStartedTitle {
-  color: #92af63;
+	color: #92af63;
 }
 .landingContainer .ptcMediaTitle {
-  color: #1b9cf7;
+	color: #1b9cf7;
 }
 
 .landing-goodluck {
-  margin-top: 5vw;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 29px;
-  color: #7c72e8;
-  text-align: center;
-  padding-top: 20px;
+	margin-top: 5vw;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 29px;
+	color: #7c72e8;
+	text-align: center;
+	padding-top: 20px;
+}
+
+li {
+	list-style-position: inside;
 }
