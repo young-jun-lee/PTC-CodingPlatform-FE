@@ -4,8 +4,8 @@ export interface ProblemKeyProps {
 	points: number;
 	inputSpecification: string;
 	outputSpecification: string;
-	sampleInput: string[];
-	sampleOutput: string[];
+	sampleInput: string[] | string | number;
+	sampleOutput: string[] | string;
 	hints: {
 		text: string;
 		link: string;
