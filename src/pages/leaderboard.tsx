@@ -20,7 +20,9 @@ const Leaderboard = () => {
 			<div className='section' id='leaderboard'>
 				<Navbar />
 				<Banner page='TOP 10 Leaderboard' />
-				<div>Query returned no results.</div>
+				<div className='leaderboardContainer'>
+					<div>Query returned no results.</div>
+				</div>
 			</div>
 		);
 	}
@@ -29,7 +31,9 @@ const Leaderboard = () => {
 			<Navbar />
 			<Banner page='TOP 10 Leaderboard' />
 			{!data?.topScores && fetching ? (
-				<p>data is loading...</p>
+				<div className='leaderboardContainer'>
+					<p>data is loading...</p>
+				</div>
 			) : (
 				<table>
 					<thead>
