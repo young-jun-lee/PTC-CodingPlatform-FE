@@ -9,7 +9,7 @@ const ChallengesBody: FC<WeekProps> = ({ week }) => {
 		const today = new Date(Date.now());
 
 		const week1Start = new Date(Date.UTC(2021, 6, 5, 4, 0, 0));
-		const week2Start = new Date(Date.UTC(2021, 6, 12, 4, 0, 0));
+		const week2Start = new Date(Date.UTC(2023, 6, 12, 4, 0, 0));
 		const week3Start = new Date(Date.UTC(2021, 6, 19, 4, 0, 0));
 		const week4Start = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
 		if (today.getTime() > week4Start.getTime()) {

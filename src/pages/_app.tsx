@@ -6,6 +6,7 @@ import "../styles/Nav.css";
 import "../styles/test.css";
 import "../styles/SignUp.css";
 import "../styles/Login.css";
+import "../styles/ResetPW.css";
 import "../styles/ForgotPassword.css";
 import "../styles/ErrorMessage.css";
 import "../styles/RulesBody.css";

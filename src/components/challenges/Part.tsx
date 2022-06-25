@@ -1,17 +1,20 @@
 import React, { useContext, useState, useEffect, FC } from "react";
 import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
+import { useUploadFileQuery } from "../../generated/graphql";
+import { useAWSUpload } from "../../utils/useAWSUpload";
 import ScrollableMenu from "./ScrollableMenu";
+import { useChangePasswordMutation } from "../../generated/graphql";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
 	const [submitMessage, setSubmitMessage] = useState("");
 	const [disabled, setDisabled] = useState(false);
 	const [submissionMessage, setSubmissionMessage] = useState("");
+	const [uploadFileInput, setUploadFileInput] = useState({});
 
-	// const { handleUpload, progress } = useAWSUpload();
-
-	// const status = useContext(AuthContext);
-	// const week = props.week;
+	const { handleUpload, progress } = useAWSUpload();
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
@@ -44,74 +47,48 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		}
 	}
 
-	// const onSubmit = async (e, part) => {
-	// 	e.preventDefault();
-	// 	try {
-	// 		if (!deadlineCutoff()) {
-	// 			setSubmitMessage(
-	// 				"The deadline has passed and submissions are now closed"
-	// 			);
-	// 			return;
-	// 		}
-
-	// 		if (!file) {
-	// 			setSubmitMessage("You have not entered a file to submit.");
-	// 			return;
-	// 		}
-
-	// 		const res = await handleUpload({
-	// 			file,
-	// 			metadata: {
-	// 				question: `${week}${props.questionNum}${part}`,
-	// 				email: status.loggedIn.email,
-	// 			},
-	// 			path: `${week}${props.questionNum}${part}/${status.loggedIn.email}`,
-	// 		});
-	// 		setSubmitMessage(
-	// 			"You have successfully submitted a file. Please refresh the page to resubmit."
-	// 		);
-	// 		//console.log(res);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		console.log(error.message);
-	// 	} finally {
-	// 		if (file) {
-	// 			setDisabled(!disabled);
-	// 		}
-	// 	}
-	// };
+	const onSubmit = async (e, questionPart: string) => {
+		e.preventDefault();
+		try {
+			// if (!deadlineCutoff()) {
+			// 	setSubmitMessage(
+			// 		"The deadline has passed and submissions are now closed"
+			// 	);
+			// 	return;
+			// }
+			console.log(file);
+			if (!file) {
+				setSubmitMessage("You have not entered a file to submit.");
+				return;
+			}
+			const res = await handleUpload({
+				file,
+				metadata: {
+					question: `${week}${questionNum}${questionPart}`,
+					email: "yjl.2000@hotmail.com",
+				},
+				path: `${week}${questionNum}${questionPart}/${"yjl.2000@hotmail.com"}`,
+			});
+			console.log("Result called from Part: ", res);
+			setSubmitMessage(
+				"You have successfully submitted a file. Please refresh the page to resubmit."
+			);
+			// console.log(res);
+		} catch (error) {
+			console.log(error);
+			// console.log(error.message);
+		} finally {
+			if (file) {
+				setDisabled(!disabled);
+			}
+		}
+	};
 
 	const viewSubmission = async (e, part) => {
 		e.preventDefault();
 
 		let fileKey;
 		var date;
-
-		// await axios
-		// 	.post(`${process.env.REACT_APP_BACK_END_ENDPOINT}/aws/get_FK`, {
-		// 		question: `${week}${props.questionNum}${part}`,
-		// 	})
-		// 	.then((res) => {
-		// 		if (!res.data) {
-		// 			setSubmissionMessage(
-		// 				"You have no submissions for this question."
-		// 			);
-		// 		} else {
-		// 			fileKey = res.data.fileKey;
-		// 			date = res.data.date;
-		// 			const newOption = fileKey.replace("@", "%40");
-		// 			console.log(newOption);
-		// 			window.open(
-		// 				`https://cc-backend.s3.ca-central-1.amazonaws.com/${newOption}`,
-		// 				"_blank" // <- This is what makes it open in a new window.
-		// 			);
-		// 			var formattedDate = new Date(date).toLocaleString();
-		// 			setSubmissionMessage(`Last submitted: ${formattedDate}`);
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log(error.message);
-		// 	});
 	};
 
 	return (
@@ -161,8 +138,10 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				</div>
 				<form
 					className='problem-button-container'
-					//onSubmit={(e) => onSubmit(e, props.problemKeys.part)}
+					// onSubmit={(e) => onSubmit(e, problemKeys.part)}
 				>
+					{/* {console.log("variables: ", variables)} */}
+					{/* {console.log("data: ", data)} */}
 					{/* {status.loggedIn?.admin && (
 						<>
 							<ScrollableMenu
@@ -177,60 +156,80 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 						</>
 					)} */}
 
-					{/* {!status.loggedIn?.admin && status.loggedIn?.loggedIn && (
+					<>
+						{/* {status.loggedIn?.week === parseInt(props.week) && ( */}
 						<>
-							{status.loggedIn?.week === parseInt(props.week) && (
-								<>
-									<input
-										type='file'
-										accept='text/plain'
-										className='choose-file-button problem-button'
-										id='choose-file'
-										onChange={onChange}
-									/>
-									<input
-										disabled={disabled}
-										type='submit'
-										onClick={(e) =>
-											onSubmit(e, props.problemKeys.part)
-										}
-										className='file-submit-button problem-button'
-										style={
-											disabled
-												? {
-														opacity: 0.4,
-														fontColor: "black",
-												  }
-												: { opacity: 1.0 }
-										}
-									/>
-									<div>{submitMessage}</div>
-								</>
-							)}
-							{status.loggedIn?.week !== parseInt(props.week) && (
-								<>
-									<div>
-										You are no longer able to submit for
-										this week
-									</div>
-									<br></br>
-								</>
-							)}
-							<button
-								className='problem-button file-submit-button view-button'
-								onClick={(e) =>
-									viewSubmission(e, props.problemKeys.part)
-								}
-							>
-								View Submission
-							</button>
-							<div>{submissionMessage}</div>
+							<input
+								type='file'
+								accept='text/plain'
+								className='choose-file-button problem-button'
+								id='choose-file'
+								onChange={onChange}
+							/>
+							<input
+								// disabled={disabled}
+								type='submit'
+								// onClick={(e) => onSubmit(e, problemKeys.part)}
+								// onClick={() =>
+								// 	setUploadFileInput({
+								// 		presignedUrlInput: {
+								// 		},
+								// 	})
+								// }
+								// onClick={async () => {
+								// 	setVariables({
+								// 		presignedUrlInput: {
+								// 			fileName: file.name,
+								// 			fileType: "py",
+								// 			metadata: {
+								// 				question: `${week}${questionNum}${problemKeys.part}`,
+								// 				email: "yjl.2000@hotmail.com",
+								// 			},
+								// 			path: `${week}${questionNum}${
+								// 				problemKeys.part
+								// 			}/${"yjl.2000@hotmail.com"}`,
+								// 		},
+								// 	});
+								// 	const response = await useUploadFiles({
+								// 		variables,
+								// 	});
+								// 	console.log(response);
+								// }}
+								onClick={(e) => onSubmit(e, problemKeys.part)}
+								className='file-submit-button problem-button'
+								// style={
+								// 	disabled
+								// 		? {
+								// 				opacity: 0.4,
+								// 				fontColor: "black",
+								// 		  }
+								// 		: { opacity: 1.0 }
+								// }
+							/>
+							<div>{submitMessage}</div>
 						</>
-					)} */}
+						{/* )} */}
+						{/* {status.loggedIn?.week !== parseInt(props.week) && (
+							<>
+								<div>
+									You are no longer able to submit for this
+									week
+								</div>
+								<br></br>
+							</>
+						)} */}
+						<button
+							className='problem-button file-submit-button view-button'
+							onClick={(e) => viewSubmission(e, problemKeys.part)}
+						>
+							View Submission
+						</button>
+						<div>{submissionMessage}</div>
+					</>
 				</form>
 			</div>
 		</div>
 	);
 };
 
-export default Part;
+export default withUrqlClient(createUrqlClient)(Part);

@@ -10,8 +10,6 @@ import data from "../../content/footer";
 import { useChangePasswordMutation } from "../../generated/graphql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 
-import Footer from "../../components/Footer";
-
 const ChangePassword: NextPage<{ token: string }> = () => {
 	const router = useRouter();
 	const [, changePassword] = useChangePasswordMutation();
@@ -21,15 +19,15 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 		<>
 			<Navbar></Navbar>
 			<Banner page='Reset Password'></Banner>
-			<div className='login-component'>
-				<div className='login-body'>
+			<div className='resetPW-component'>
+				<div className='reset-body'>
 					<img
 						className='ptc-logo'
 						src={data.ptcIcon.src}
 						alt='#'
 					></img>
 
-					<div className='login-text'>
+					<div className='reset-text'>
 						Enter your new password below
 					</div>
 					<Formik
@@ -55,9 +53,9 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 						}}
 					>
 						{({ isSubmitting }) => (
-							<Form className='login-form'>
+							<Form className='reset-form'>
 								<input
-									className='signup-text'
+									className='reset-text'
 									type='password'
 									placeholder='Password'
 									onChange={(e) =>
@@ -87,7 +85,6 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 					</Formik>
 				</div>
 			</div>
-			<Footer></Footer>
 		</>
 	);
 };

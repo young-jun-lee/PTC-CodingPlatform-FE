@@ -13,7 +13,7 @@ const Challenges: NextPage<{ week: string }> = () => {
 		4: "Combo",
 	};
 	const router = useRouter();
-	console.log(router.query.week);
+
 	const week = parseInt(
 		typeof router.query.week === "string" ? router.query.week : ""
 	);

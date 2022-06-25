@@ -66,12 +66,12 @@ const Landing: NextPage = () => {
 								made this event possible!
 							</p>
 							<img
-								src={`${process.env.PUBLIC_URL}/assets/static/angstromretinalogor.png`}
+								src={`/assets/static/angstromretinalogor.png`}
 								alt='#'
 								className='sponsImages angstrom'
 							/>
 							<img
-								src={`${process.env.PUBLIC_URL}/assets/static/WaterlooIT Logo.png`}
+								src={`/assets/static/WaterlooIT Logo.png`}
 								alt='#'
 								className='sponsImages'
 							/>
