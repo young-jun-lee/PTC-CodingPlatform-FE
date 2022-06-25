@@ -45,10 +45,16 @@ input {
 	/* height: 4em; */
 	font-size: 1em;
 	margin-bottom: 1em;
-	color: #808080;
+	color: #535353;
 	padding-left: 20px;
 	align-self: center;
 	justify-self: center;
+}
+
+.input-text::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #6d6a6a;
+	opacity: 1; /* Firefox */
 }
 
 .input-submit {

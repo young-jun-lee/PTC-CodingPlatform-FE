@@ -25,9 +25,15 @@
 	/* padding: 10px 0; */
 	border: 1px solid #d5d5d5;
 	width: 95%;
-	color: #808080;
+	color: #535353;
 	padding-left: 20px;
 	align-self: center;
+}
+
+.signup-text::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #6d6a6a;
+	opacity: 1; /* Firefox */
 }
 
 .signup-name-input {
