@@ -1,0 +1,11 @@
+mutation UploadFile($presignedUrlInput: PresignedUrlInput!) {
+	uploadFile(presignedUrlInput: $presignedUrlInput) {
+		errors {
+			...RegularMessage
+		}
+		uploadData {
+			fileKey
+			signedRequest
+		}
+	}
+}

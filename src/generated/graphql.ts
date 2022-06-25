@@ -21,6 +21,11 @@ export type MessageField = {
   message: Scalars['String'];
 };
 
+export type Metadata = {
+  email: Scalars['String'];
+  question: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
@@ -28,6 +33,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  uploadFile?: Maybe<SubmissionResponse>;
 };
 
 
@@ -52,17 +58,41 @@ export type MutationRegisterArgs = {
   options: UsernamePasswordInput;
 };
 
+
+export type MutationUploadFileArgs = {
+  presignedUrlInput: PresignedUrlInput;
+};
+
+export type PresignedUrlInput = {
+  fileName: Scalars['String'];
+  fileType: Scalars['String'];
+  metadata: Metadata;
+  path: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   listUsers?: Maybe<Array<User>>;
   me?: Maybe<User>;
-  topScores?: Maybe<Array<Submissions>>;
+  topScores?: Maybe<Array<TopQuery>>;
   userPoints?: Maybe<Array<Submissions>>;
 };
 
 
 export type QueryUserPointsArgs = {
   username: Scalars['String'];
+};
+
+export type SignedUrlData = {
+  __typename?: 'SignedUrlData';
+  fileKey: Scalars['String'];
+  signedRequest: Scalars['String'];
+};
+
+export type SubmissionResponse = {
+  __typename?: 'SubmissionResponse';
+  errors?: Maybe<Array<MessageField>>;
+  uploadData?: Maybe<SignedUrlData>;
 };
 
 export type Submissions = {
@@ -77,6 +107,13 @@ export type Submissions = {
   updates: Scalars['Int'];
   username: Scalars['String'];
   week: Scalars['Int'];
+};
+
+export type TopQuery = {
+  __typename?: 'TopQuery';
+  points: Scalars['Float'];
+  rank: Scalars['Float'];
+  username: Scalars['String'];
 };
 
 export type User = {
@@ -148,6 +185,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, success?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, user?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null } };
 
+export type UploadFileMutationVariables = Exact<{
+  presignedUrlInput: PresignedUrlInput;
+}>;
+
+
+export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'SubmissionResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, uploadData?: { __typename?: 'SignedUrlData', fileKey: string, signedRequest: string } | null } | null };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -156,7 +200,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', isAdmi
 export type TopScoresQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'Submissions', username: string, points: number, rank: number }> | null };
+export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'TopQuery', username: string, points: number, rank: number }> | null };
 
 export type UserPointsQueryVariables = Exact<{
   username: Scalars['String'];
@@ -244,6 +288,23 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const UploadFileDocument = gql`
+    mutation UploadFile($presignedUrlInput: PresignedUrlInput!) {
+  uploadFile(presignedUrlInput: $presignedUrlInput) {
+    errors {
+      ...RegularMessage
+    }
+    uploadData {
+      fileKey
+      signedRequest
+    }
+  }
+}
+    ${RegularMessageFragmentDoc}`;
+
+export function useUploadFileMutation() {
+  return Urql.useMutation<UploadFileMutation, UploadFileMutationVariables>(UploadFileDocument);
 };
 export const MeDocument = gql`
     query Me {
