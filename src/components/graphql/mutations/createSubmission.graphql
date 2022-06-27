@@ -1,0 +1,15 @@
+mutation CreateSubmission($options: CreateSubmissionInput!) {
+	createSubmission(options: $options) {
+		errors {
+			field
+			message
+		}
+		success {
+			field
+			message
+		}
+		submission {
+			fileKey
+		}
+	}
+}

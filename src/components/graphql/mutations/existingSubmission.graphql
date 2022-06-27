@@ -1,0 +1,12 @@
+mutation ExistingSubmission($question: String!) {
+	existingSubmission(question: $question) {
+		errors {
+			field
+			message
+		}
+		existing
+		id
+		creatorId
+		updates
+	}
+}

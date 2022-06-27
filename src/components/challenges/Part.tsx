@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, FC } from "react";
 import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
-import { useUploadFileQuery } from "../../generated/graphql";
 import { useAWSUpload } from "../../utils/useAWSUpload";
 import ScrollableMenu from "./ScrollableMenu";
 import { useChangePasswordMutation } from "../../generated/graphql";

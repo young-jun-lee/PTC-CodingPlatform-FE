@@ -4,6 +4,8 @@ import Navbar from "../../components/Navbar";
 import ChallengesBody from "../../components/challenges/ChallengesBody";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 
 const Challenges: NextPage<{ week: string }> = () => {
 	const themes: any = {
@@ -27,4 +29,4 @@ const Challenges: NextPage<{ week: string }> = () => {
 	);
 };
 
-export default Challenges;
+export default withUrqlClient(createUrqlClient)(Challenges);

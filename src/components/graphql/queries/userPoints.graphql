@@ -1,8 +1,12 @@
-query UserPoints($username: String!) {
-	userPoints(username: $username) {
-		week
+query UserPoints {
+	userPoints {
+		id
+		createdAt
+		updatedAt
 		question
-		part
 		points
+		fileKey
+		updates
+		creatorId
 	}
 }

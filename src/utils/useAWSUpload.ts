@@ -1,24 +1,39 @@
 import axios from "axios";
+import { create } from "domain";
 import { useState } from "react";
-import { useUploadFileMutation } from "../generated/graphql";
+import {
+	useCreateSubmissionMutation,
+	useExistingSubmissionMutation,
+	useUploadFileMutation,
+} from "../generated/graphql";
 
 const DEFAULT_MAX_SIZE = 15e6;
 
-export interface Props {
-	metadata: object;
+export interface AWSProps {
+	metadata: { question: string; email: string };
 	file: File;
 	path: string;
 	maxSize?: number;
 }
 
-/**
+export interface DBProps {
+	existing: boolean;
+	question: string;
+	fileKey: string;
+	id?: number | null;
+	creatorId?: number | null;
+	updates?: number | null;
+}
+
+export /**
  * @description Provides callbacks and functions to upload files to a public-read AWS bucket
  *
  */
-export function useAWSUpload() {
+function useAWSUpload() {
 	const [progress, setProgress] = useState<number>(0);
-	const [_, uploadFile] = useUploadFileMutation();
-	// const [_, login] = useLoginMutation();
+	const [, uploadFile] = useUploadFileMutation();
+	const [, existingSubmission] = useExistingSubmissionMutation();
+	const [, createSubmission] = useCreateSubmissionMutation();
 
 	/**
 	 * @description Uploads a passed file to a public read AWS bucket
@@ -29,18 +44,28 @@ export function useAWSUpload() {
 	 *
 	 * @returns {string} fileKey
 	 */
+
 	async function handleUpload({
 		file,
 		metadata,
 		path,
 		maxSize = DEFAULT_MAX_SIZE,
-	}: Props) {
-		console.log("Printing file from handleUpload: ", file);
+	}: AWSProps) {
+		const existingSubmissionObject = await existingSubmission({
+			question: metadata.question,
+		});
+		console.log(existingSubmissionObject);
+		const existingSubmissionData =
+			existingSubmissionObject.data?.existingSubmission;
+		if (existingSubmissionData?.errors)
+			return existingSubmissionData.errors;
 
 		if (!file) throw new Error("Did you forget to attach a file?");
 		// Get the file type and name
 		const fileType = file.name.split(".").pop();
 
+		if (fileType !== "py")
+			throw new Error("You did not attach a python file");
 		if (file.size > maxSize) throw new Error("Your file is too large");
 		if (file.size === 0)
 			throw new Error("Did you forget to attach a file?");
@@ -69,31 +94,35 @@ export function useAWSUpload() {
 		const fileKey = s3UploadData.data?.uploadFile?.uploadData?.fileKey;
 		const signedRequest =
 			s3UploadData.data?.uploadFile?.uploadData?.signedRequest;
-		const mimeFileType =
-			s3UploadData.data.uploadFile.uploadData.mimeFileType;
-		// const { signedRequest, fileKey } = res;
 
-		// Default headers from passport.js interfering - Borrowed from V1
-		// delete axios.defaults.headers.common['Authorization'];
-
-		// Initializing the headers
-		// const options = {
-		// 	withCredentials: true,
-		// 	headers: {
-		// 		"Content-Type": "text/plain",
-		// 	},
-		// };
-		// 	onUploadProgress: (progressEvent: any) => {
-		// 		setProgress(
-		// 			Math.round(
-		// 				(progressEvent.loaded * 100) / progressEvent.total
-		// 			)
-		// 		);
-		// 	},
-		// };
-
+		// TODO: do err handling on axios request
 		await axios.put(signedRequest, file);
+		if (existingSubmissionData?.existing) {
+			console.log("existing");
+		}
+		const dbSubmission = await uploadDB({
+			existing: existingSubmissionData.existing,
+			question: metadata.question,
+			fileKey,
+			id: existingSubmissionData?.id,
+			creatorId: existingSubmissionData?.creatorId,
+			updates: existingSubmissionData?.updates,
+		});
 		return fileKey;
+	}
+
+	async function uploadDB({
+		existing,
+		question,
+		fileKey,
+		id,
+		creatorId,
+		updates,
+	}: DBProps) {
+		const submissionData = await createSubmission({
+			options: { existing, question, fileKey, id, creatorId, updates },
+		});
+		console.log(submissionData);
 	}
 
 	return {

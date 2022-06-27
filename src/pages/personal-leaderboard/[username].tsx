@@ -5,25 +5,21 @@ import { useState } from "react";
 import Banner from "../../components/Banner";
 import Navbar from "../../components/Navbar";
 import { useUserPointsQuery } from "../../generated/graphql";
-// import Style from "../styles/Leaderboard.css";
-// import { formatMongoData } from "../content/PLeaderboardFunction/pLeaderboardFunctions";
 
 const PLeaderboard = () => {
 	const [pLeaderboardInfo, setPLeaderboardInfo] = useState();
 	const [pLeaderboardInfoSub, setPLeaderboardInfoSub] = useState([]);
 	const [variables, setVariables] = useState({
-		username: "test1",
+		username: "test",
 	});
-	const [{ data, fetching }] = useUserPointsQuery({ variables });
-	const router = useRouter();
+	const [{ data, fetching }] = useUserPointsQuery();
+	// const router = useRouter();
 
 	// console.log(variables);
 	// const username =
 	// 	typeof router.query.username === "string" ? router.query.username : "";
 	// const getPLeaderboardInfo = async () => {
-	// 	const results = useUserPointsQuery({
-	// 		variables,
-	// 	});
+	// 	const results = useUserPointsQuery();
 	// 	const resultsPoints = results[0].data?.userPoints;
 
 	// 	// console.log(typeof results[0].data?.userPoints);
@@ -33,13 +29,13 @@ const PLeaderboard = () => {
 	// const results = getPLeaderboardInfo();
 	// console.log(data);
 
-	// console.log(router.query.username);
+	// // console.log(router.query.username);
 	// useEffect(() => {
 	// 	getPLeaderboardInfo();
 	// }, []);
-	if (!fetching && !data) {
-		return <div>Query returned no results.</div>;
-	}
+	// if (!fetching && !data) {
+	// 	return <div>Query returned no results.</div>;
+	// }
 	return (
 		<div className='section' id='leaderboard'>
 			<Navbar />
@@ -56,11 +52,11 @@ const PLeaderboard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{/* {console.log(data?.userPoints)} */}
+						{console.log(data?.userPoints)}
 						{data!.userPoints?.map((post, index) => (
 							<tr key={index}>
-								<td>{post.week}</td>
-								<td>{`Question ${post.question} - Part ${post.part}`}</td>
+								<td>{post.question[0]}</td>
+								<td>{`Question ${post.question[1]} - Part ${post.question[2]}`}</td>
 								{post.points ? (
 									<td>{post.points}</td>
 								) : (

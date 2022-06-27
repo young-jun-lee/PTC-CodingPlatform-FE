@@ -4,6 +4,8 @@ import Part from "./Part";
 // import style from "../../styles/Problem.css";
 import Week1Content from "../../content/questions/week1";
 import { ProblemProps } from "../../common/Interfaces";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 // import Week2Content from "../../content/questions/Week2";
 // import Week3Content from "../../content/questions/Week3";
 // import Week4Content from "../../content/questions/Week4";
@@ -55,4 +57,4 @@ const Problem: FC<ProblemProps> = ({ questionNum, week }) => {
 	);
 };
 
-export default Problem;
+export default withUrqlClient(createUrqlClient)(Problem);

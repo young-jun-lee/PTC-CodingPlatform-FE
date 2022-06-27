@@ -15,6 +15,31 @@ export type Scalars = {
   Float: number;
 };
 
+export type CreateSubmissionInput = {
+  creatorId?: InputMaybe<Scalars['Float']>;
+  existing: Scalars['Boolean'];
+  fileKey: Scalars['String'];
+  id?: InputMaybe<Scalars['Float']>;
+  question: Scalars['String'];
+  updates?: InputMaybe<Scalars['Float']>;
+};
+
+export type CreateSubmissionResponse = {
+  __typename?: 'CreateSubmissionResponse';
+  errors?: Maybe<Array<MessageField>>;
+  submission?: Maybe<Submissions>;
+  success?: Maybe<Array<MessageField>>;
+};
+
+export type ExistingSubmissionResponse = {
+  __typename?: 'ExistingSubmissionResponse';
+  creatorId?: Maybe<Scalars['Float']>;
+  errors?: Maybe<Array<MessageField>>;
+  existing: Scalars['Boolean'];
+  id?: Maybe<Scalars['Float']>;
+  updates?: Maybe<Scalars['Float']>;
+};
+
 export type MessageField = {
   __typename?: 'MessageField';
   field: Scalars['String'];
@@ -29,17 +54,29 @@ export type Metadata = {
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
+  createSubmission: CreateSubmissionResponse;
+  existingSubmission: ExistingSubmissionResponse;
   forgotPassword: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
-  uploadFile?: Maybe<SubmissionResponse>;
+  uploadFile?: Maybe<S3SubmissionResponse>;
 };
 
 
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationCreateSubmissionArgs = {
+  options: CreateSubmissionInput;
+};
+
+
+export type MutationExistingSubmissionArgs = {
+  question: Scalars['String'];
 };
 
 
@@ -78,9 +115,10 @@ export type Query = {
   userPoints?: Maybe<Array<Submissions>>;
 };
 
-
-export type QueryUserPointsArgs = {
-  username: Scalars['String'];
+export type S3SubmissionResponse = {
+  __typename?: 'S3SubmissionResponse';
+  errors?: Maybe<Array<MessageField>>;
+  uploadData?: Maybe<SignedUrlData>;
 };
 
 export type SignedUrlData = {
@@ -89,24 +127,17 @@ export type SignedUrlData = {
   signedRequest: Scalars['String'];
 };
 
-export type SubmissionResponse = {
-  __typename?: 'SubmissionResponse';
-  errors?: Maybe<Array<MessageField>>;
-  uploadData?: Maybe<SignedUrlData>;
-};
-
 export type Submissions = {
   __typename?: 'Submissions';
   createdAt: Scalars['String'];
+  creatorId: Scalars['Float'];
+  fileKey: Scalars['String'];
   id: Scalars['Int'];
-  part: Scalars['String'];
   points: Scalars['Int'];
-  question: Scalars['Int'];
+  question: Scalars['String'];
   rank: Scalars['Float'];
   updatedAt: Scalars['String'];
   updates: Scalars['Int'];
-  username: Scalars['String'];
-  week: Scalars['Int'];
 };
 
 export type TopQuery = {
@@ -158,6 +189,20 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, success?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, user?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null } };
 
+export type CreateSubmissionMutationVariables = Exact<{
+  options: CreateSubmissionInput;
+}>;
+
+
+export type CreateSubmissionMutation = { __typename?: 'Mutation', createSubmission: { __typename?: 'CreateSubmissionResponse', errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, success?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, submission?: { __typename?: 'Submissions', fileKey: string } | null } };
+
+export type ExistingSubmissionMutationVariables = Exact<{
+  question: Scalars['String'];
+}>;
+
+
+export type ExistingSubmissionMutation = { __typename?: 'Mutation', existingSubmission: { __typename?: 'ExistingSubmissionResponse', existing: boolean, id?: number | null, creatorId?: number | null, updates?: number | null, errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null } };
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -190,7 +235,7 @@ export type UploadFileMutationVariables = Exact<{
 }>;
 
 
-export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'SubmissionResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, uploadData?: { __typename?: 'SignedUrlData', fileKey: string, signedRequest: string } | null } | null };
+export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'S3SubmissionResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, uploadData?: { __typename?: 'SignedUrlData', fileKey: string, signedRequest: string } | null } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -202,12 +247,10 @@ export type TopScoresQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'TopQuery', username: string, points: number, rank: number }> | null };
 
-export type UserPointsQueryVariables = Exact<{
-  username: Scalars['String'];
-}>;
+export type UserPointsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserPointsQuery = { __typename?: 'Query', userPoints?: Array<{ __typename?: 'Submissions', week: number, question: number, part: string, points: number }> | null };
+export type UserPointsQuery = { __typename?: 'Query', userPoints?: Array<{ __typename?: 'Submissions', id: number, createdAt: string, updatedAt: string, question: string, points: number, fileKey: string, updates: number, creatorId: number }> | null };
 
 export const RegularMessageFragmentDoc = gql`
     fragment RegularMessage on MessageField {
@@ -246,6 +289,45 @@ export const ChangePasswordDocument = gql`
 
 export function useChangePasswordMutation() {
   return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
+};
+export const CreateSubmissionDocument = gql`
+    mutation CreateSubmission($options: CreateSubmissionInput!) {
+  createSubmission(options: $options) {
+    errors {
+      field
+      message
+    }
+    success {
+      field
+      message
+    }
+    submission {
+      fileKey
+    }
+  }
+}
+    `;
+
+export function useCreateSubmissionMutation() {
+  return Urql.useMutation<CreateSubmissionMutation, CreateSubmissionMutationVariables>(CreateSubmissionDocument);
+};
+export const ExistingSubmissionDocument = gql`
+    mutation ExistingSubmission($question: String!) {
+  existingSubmission(question: $question) {
+    errors {
+      field
+      message
+    }
+    existing
+    id
+    creatorId
+    updates
+  }
+}
+    `;
+
+export function useExistingSubmissionMutation() {
+  return Urql.useMutation<ExistingSubmissionMutation, ExistingSubmissionMutationVariables>(ExistingSubmissionDocument);
 };
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
@@ -332,16 +414,20 @@ export function useTopScoresQuery(options?: Omit<Urql.UseQueryArgs<TopScoresQuer
   return Urql.useQuery<TopScoresQuery>({ query: TopScoresDocument, ...options });
 };
 export const UserPointsDocument = gql`
-    query UserPoints($username: String!) {
-  userPoints(username: $username) {
-    week
+    query UserPoints {
+  userPoints {
+    id
+    createdAt
+    updatedAt
     question
-    part
     points
+    fileKey
+    updates
+    creatorId
   }
 }
     `;
 
-export function useUserPointsQuery(options: Omit<Urql.UseQueryArgs<UserPointsQueryVariables>, 'query'>) {
+export function useUserPointsQuery(options?: Omit<Urql.UseQueryArgs<UserPointsQueryVariables>, 'query'>) {
   return Urql.useQuery<UserPointsQuery>({ query: UserPointsDocument, ...options });
 };
