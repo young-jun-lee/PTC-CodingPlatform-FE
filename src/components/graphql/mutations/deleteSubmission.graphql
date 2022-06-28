@@ -1,0 +1,12 @@
+mutation DeleteFile($fileKey: String!) {
+	deleteFile(fileKey: $fileKey) {
+		errors {
+			field
+			message
+		}
+		success {
+			field
+			message
+		}
+	}
+}

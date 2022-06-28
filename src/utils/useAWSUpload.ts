@@ -3,6 +3,7 @@ import { create } from "domain";
 import { useState } from "react";
 import {
 	useCreateSubmissionMutation,
+	useDeleteFileMutation,
 	useExistingSubmissionMutation,
 	useUploadFileMutation,
 } from "../generated/graphql";
@@ -10,7 +11,7 @@ import {
 const DEFAULT_MAX_SIZE = 15e6;
 
 export interface AWSProps {
-	metadata: { question: string; email: string };
+	metadata: { question: string; username: string };
 	file: File;
 	path: string;
 	maxSize?: number;
@@ -32,6 +33,7 @@ export /**
 function useAWSUpload() {
 	const [progress, setProgress] = useState<number>(0);
 	const [, uploadFile] = useUploadFileMutation();
+	const [, deleteFile] = useDeleteFileMutation();
 	const [, existingSubmission] = useExistingSubmissionMutation();
 	const [, createSubmission] = useCreateSubmissionMutation();
 
@@ -73,6 +75,21 @@ function useAWSUpload() {
 		console.log(
 			`filename: ${file.name}\n metadata: ${metadata}\n path: ${path}`
 		);
+
+		if (existingSubmissionData?.existing) {
+			console.log("in delete function");
+			if (existingSubmissionData.fileKey) {
+				const deleteSubData = await deleteFile({
+					fileKey: existingSubmissionData.fileKey,
+				});
+				if (deleteSubData.error) {
+					throw new Error(
+						"Previous submission could not be deleted."
+					);
+				}
+			}
+		}
+
 		const s3UploadData = await uploadFile({
 			presignedUrlInput: {
 				fileName: file.name,

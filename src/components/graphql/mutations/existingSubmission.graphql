@@ -8,5 +8,6 @@ mutation ExistingSubmission($question: String!) {
 		id
 		creatorId
 		updates
+		fileKey
 	}
 }

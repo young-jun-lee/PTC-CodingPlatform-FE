@@ -36,6 +36,7 @@ export type ExistingSubmissionResponse = {
   creatorId?: Maybe<Scalars['Float']>;
   errors?: Maybe<Array<MessageField>>;
   existing: Scalars['Boolean'];
+  fileKey?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
   updates?: Maybe<Scalars['Float']>;
 };
@@ -47,20 +48,22 @@ export type MessageField = {
 };
 
 export type Metadata = {
-  email: Scalars['String'];
   question: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   changePassword: UserResponse;
   createSubmission: CreateSubmissionResponse;
+  deleteFile: UserResponse;
   existingSubmission: ExistingSubmissionResponse;
   forgotPassword: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
   uploadFile?: Maybe<S3SubmissionResponse>;
+  viewFile?: Maybe<S3SubmissionResponse>;
 };
 
 
@@ -72,6 +75,11 @@ export type MutationChangePasswordArgs = {
 
 export type MutationCreateSubmissionArgs = {
   options: CreateSubmissionInput;
+};
+
+
+export type MutationDeleteFileArgs = {
+  fileKey: Scalars['String'];
 };
 
 
@@ -98,6 +106,11 @@ export type MutationRegisterArgs = {
 
 export type MutationUploadFileArgs = {
   presignedUrlInput: PresignedUrlInput;
+};
+
+
+export type MutationViewFileArgs = {
+  viewFileInput: ViewFileInput;
 };
 
 export type PresignedUrlInput = {
@@ -175,6 +188,11 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
+export type ViewFileInput = {
+  question: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type RegularMessageFragment = { __typename?: 'MessageField', message: string, field: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string, isAdmin: boolean };
@@ -196,12 +214,19 @@ export type CreateSubmissionMutationVariables = Exact<{
 
 export type CreateSubmissionMutation = { __typename?: 'Mutation', createSubmission: { __typename?: 'CreateSubmissionResponse', errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, success?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, submission?: { __typename?: 'Submissions', fileKey: string } | null } };
 
+export type DeleteFileMutationVariables = Exact<{
+  fileKey: Scalars['String'];
+}>;
+
+
+export type DeleteFileMutation = { __typename?: 'Mutation', deleteFile: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, success?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null } };
+
 export type ExistingSubmissionMutationVariables = Exact<{
   question: Scalars['String'];
 }>;
 
 
-export type ExistingSubmissionMutation = { __typename?: 'Mutation', existingSubmission: { __typename?: 'ExistingSubmissionResponse', existing: boolean, id?: number | null, creatorId?: number | null, updates?: number | null, errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null } };
+export type ExistingSubmissionMutation = { __typename?: 'Mutation', existingSubmission: { __typename?: 'ExistingSubmissionResponse', existing: boolean, id?: number | null, creatorId?: number | null, updates?: number | null, fileKey?: string | null, errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -311,6 +336,24 @@ export const CreateSubmissionDocument = gql`
 export function useCreateSubmissionMutation() {
   return Urql.useMutation<CreateSubmissionMutation, CreateSubmissionMutationVariables>(CreateSubmissionDocument);
 };
+export const DeleteFileDocument = gql`
+    mutation DeleteFile($fileKey: String!) {
+  deleteFile(fileKey: $fileKey) {
+    errors {
+      field
+      message
+    }
+    success {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useDeleteFileMutation() {
+  return Urql.useMutation<DeleteFileMutation, DeleteFileMutationVariables>(DeleteFileDocument);
+};
 export const ExistingSubmissionDocument = gql`
     mutation ExistingSubmission($question: String!) {
   existingSubmission(question: $question) {
@@ -322,6 +365,7 @@ export const ExistingSubmissionDocument = gql`
     id
     creatorId
     updates
+    fileKey
   }
 }
     `;

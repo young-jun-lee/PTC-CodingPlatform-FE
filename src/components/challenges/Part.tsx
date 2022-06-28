@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, FC } from "react";
 import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
 import { useAWSUpload } from "../../utils/useAWSUpload";
 import ScrollableMenu from "./ScrollableMenu";
-import { useChangePasswordMutation } from "../../generated/graphql";
+import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 
@@ -12,6 +12,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [disabled, setDisabled] = useState(false);
 	const [submissionMessage, setSubmissionMessage] = useState("");
 	const [uploadFileInput, setUploadFileInput] = useState({});
+	const [{ data, fetching }] = useMeQuery();
 
 	const { handleUpload, progress } = useAWSUpload();
 
@@ -64,9 +65,9 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				file,
 				metadata: {
 					question: `${week}${questionNum}${questionPart}`,
-					email: "yjl.2000@hotmail.com",
+					username: `${data?.me?.username}`,
 				},
-				path: `${week}${questionNum}${questionPart}/${"yjl.2000@hotmail.com"}`,
+				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`,
 			});
 			console.log("Result called from Part: ", res);
 			setSubmitMessage(
