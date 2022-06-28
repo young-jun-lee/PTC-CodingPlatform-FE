@@ -1,9 +1,9 @@
 export default {
-  WeekNumber: '1',
-  Theme: 'Week 1',
+  WeekNumber: '4',
+  Theme: 'Week 4',
   Problems: [
     {
-      Title: "Tom's Cows",
+      Title: 'Week 4 problem 1',
       Paragraph:
         'Tom the tanuki is a farmer excited to build a brand new cow farm! In a few days, his friend Isabelle is going to send him a few special cows that produce magic milk... but he doesn’t know how many! Unfortunately, tanukis are not very good at math, so he needs your help to manage his farm finances before he can start raising the magic cows.',
       Parts: [
