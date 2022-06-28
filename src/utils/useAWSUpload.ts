@@ -55,6 +55,7 @@ function useAWSUpload() {
 			question: metadata.question,
 		});
 		console.log(existingSubmissionObject);
+
 		const existingSubmissionData =
 			existingSubmissionObject.data?.existingSubmission;
 		if (existingSubmissionData?.errors)

@@ -1,5 +1,6 @@
 import React from "react";
-
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrqlClient";
 import Text from "../content/rules";
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
@@ -187,4 +188,4 @@ const RulesBody = () => {
 	);
 };
 
-export default RulesBody;
+export default withUrqlClient(createUrqlClient)(RulesBody);
