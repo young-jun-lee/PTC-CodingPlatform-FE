@@ -56,7 +56,6 @@ function useAWSUpload() {
 		const existingSubmissionObject = await existingSubmission({
 			question: metadata.question,
 		});
-		console.log(existingSubmissionObject);
 
 		const existingSubmissionData =
 			existingSubmissionObject.data?.existingSubmission;
@@ -72,12 +71,8 @@ function useAWSUpload() {
 		if (file.size > maxSize) throw new Error("Your file is too large");
 		if (file.size === 0)
 			throw new Error("Did you forget to attach a file?");
-		console.log(
-			`filename: ${file.name}\n metadata: ${metadata}\n path: ${path}`
-		);
 
 		if (existingSubmissionData?.existing) {
-			console.log("in delete function");
 			if (existingSubmissionData.fileKey) {
 				const deleteSubData = await deleteFile({
 					fileKey: existingSubmissionData.fileKey,
@@ -98,14 +93,17 @@ function useAWSUpload() {
 				path,
 			},
 		});
-
-		if (s3UploadData.error) {
+		console.log(s3UploadData);
+		if (s3UploadData.error?.graphQLErrors) {
 			throw new Error(
-				"s3 Presigned Url could not be generated: ",
-				s3UploadData.error
+				"s3 Presigned Url could not be generated: "
+				// s3UploadData.error.message
 			);
 		}
-		console.log("Printing s3 URL from useAwsUpload: ", s3UploadData);
+		if (s3UploadData.data?.uploadFile?.errors) {
+			throw new Error(s3UploadData.data.uploadFile.errors[0].message);
+		}
+
 		if (!s3UploadData.data?.uploadFile?.uploadData) {
 			return;
 		}
@@ -115,9 +113,7 @@ function useAWSUpload() {
 
 		// TODO: do err handling on axios request
 		await axios.put(signedRequest, file);
-		if (existingSubmissionData?.existing) {
-			console.log("existing");
-		}
+
 		const dbSubmission = await uploadDB({
 			existing: existingSubmissionData.existing,
 			question: metadata.question,
@@ -140,7 +136,6 @@ function useAWSUpload() {
 		const submissionData = await createSubmission({
 			options: { existing, question, fileKey, id, creatorId, updates },
 		});
-		console.log(submissionData);
 	}
 
 	return {

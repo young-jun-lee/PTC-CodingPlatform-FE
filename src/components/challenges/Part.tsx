@@ -56,7 +56,6 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			// 	);
 			// 	return;
 			// }
-			console.log(file);
 			if (!file) {
 				setSubmitMessage("You have not entered a file to submit.");
 				return;
@@ -70,13 +69,14 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`,
 			});
 			console.log("Result called from Part: ", res);
-			setSubmitMessage(
-				"You have successfully submitted a file. Please refresh the page to resubmit."
-			);
+			setSubmitMessage("You have successfully submitted the file.");
 			// console.log(res);
 		} catch (error) {
 			console.log(error);
-			// console.log(error.message);
+			setSubmitMessage(
+				"Something went wrong. Please ensure you are logged in and try again."
+			);
+			setDisabled(!disabled);
 		} finally {
 			if (file) {
 				setDisabled(!disabled);
@@ -167,44 +167,18 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 								onChange={onChange}
 							/>
 							<input
-								// disabled={disabled}
+								disabled={disabled}
 								type='submit'
-								// onClick={(e) => onSubmit(e, problemKeys.part)}
-								// onClick={() =>
-								// 	setUploadFileInput({
-								// 		presignedUrlInput: {
-								// 		},
-								// 	})
-								// }
-								// onClick={async () => {
-								// 	setVariables({
-								// 		presignedUrlInput: {
-								// 			fileName: file.name,
-								// 			fileType: "py",
-								// 			metadata: {
-								// 				question: `${week}${questionNum}${problemKeys.part}`,
-								// 				email: "yjl.2000@hotmail.com",
-								// 			},
-								// 			path: `${week}${questionNum}${
-								// 				problemKeys.part
-								// 			}/${"yjl.2000@hotmail.com"}`,
-								// 		},
-								// 	});
-								// 	const response = await useUploadFiles({
-								// 		variables,
-								// 	});
-								// 	console.log(response);
-								// }}
 								onClick={(e) => onSubmit(e, problemKeys.part)}
 								className='file-submit-button problem-button'
-								// style={
-								// 	disabled
-								// 		? {
-								// 				opacity: 0.4,
-								// 				fontColor: "black",
-								// 		  }
-								// 		: { opacity: 1.0 }
-								// }
+								style={
+									disabled
+										? {
+												opacity: 0.4,
+												fontColor: "black",
+										  }
+										: { opacity: 1.0 }
+								}
 							/>
 							<div>{submitMessage}</div>
 						</>
