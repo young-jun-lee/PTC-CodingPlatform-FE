@@ -60,14 +60,16 @@ function useAWSUpload() {
 		const existingSubmissionData =
 			existingSubmissionObject.data?.existingSubmission;
 		if (existingSubmissionData?.errors)
-			return existingSubmissionData.errors;
+			throw new Error(existingSubmissionData.errors[0].message);
 
 		if (!file) throw new Error("Did you forget to attach a file?");
 		// Get the file type and name
 		const fileType = file.name.split(".").pop();
 
 		if (fileType !== "py")
-			throw new Error("You did not attach a python file");
+			throw new Error(
+				"Submissions must be a python file. Please refresh the page and submit a python file."
+			);
 		if (file.size > maxSize) throw new Error("Your file is too large");
 		if (file.size === 0)
 			throw new Error("Did you forget to attach a file?");
@@ -93,11 +95,11 @@ function useAWSUpload() {
 				path,
 			},
 		});
-		console.log(s3UploadData);
+		// console.log(s3UploadData);
 		if (s3UploadData.error?.graphQLErrors) {
 			throw new Error(
-				"s3 Presigned Url could not be generated: "
-				// s3UploadData.error.message
+				"Something went wrong. Please ensure you are logged in and try again." +
+					"If this error persists please email us at coding.challenge@projecttechconferences.com ASAP"
 			);
 		}
 		if (s3UploadData.data?.uploadFile?.errors) {

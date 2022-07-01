@@ -72,10 +72,13 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			setSubmitMessage("You have successfully submitted the file.");
 			// console.log(res);
 		} catch (error) {
-			console.log(error);
-			setSubmitMessage(
-				"Something went wrong. Please ensure you are logged in and try again."
-			);
+			if (error instanceof Error) {
+				setSubmitMessage(error.message);
+			} else {
+				setSubmitMessage(
+					"Something went wrong. Please ensure you are logged in and try again."
+				);
+			}
 			setDisabled(!disabled);
 		} finally {
 			if (file) {
