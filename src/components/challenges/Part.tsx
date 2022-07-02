@@ -58,26 +58,26 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			// 	return;
 			// }
 			if (!file) {
-				setSubmitMessage("You have not entered a file to submit.");
+				setSubmitMessage('You have not entered a file to submit.');
 				return;
 			}
 			const res = await handleUpload({
 				file,
 				metadata: {
 					question: `${week}${questionNum}${questionPart}`,
-					username: `${data?.me?.username}`,
+					username: `${data?.me?.username}`
 				},
-				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`,
+				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`
 			});
-			console.log("Result called from Part: ", res);
-			setSubmitMessage("You have successfully submitted the file.");
+			console.log('Result called from Part: ', res);
+			setSubmitMessage('You have successfully submitted the file.');
 			// console.log(res);
 		} catch (error) {
 			if (error instanceof Error) {
 				setSubmitMessage(error.message);
 			} else {
 				setSubmitMessage(
-					"Something went wrong. Please ensure you are logged in and try again."
+					'Something went wrong. Please ensure you are logged in and try again.'
 				);
 			}
 			setDisabled(!disabled);
@@ -95,16 +95,11 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		var date;
 		try {
 			const res = await handleGetUpload(`${week}${questionNum}${part}`);
-
-			// 	{
-			// 	question: `${week}${questionNum}${questionPart}`
-			// });
 			console.log(
 				`PresignedURL from : ${week}${questionNum}${part}`,
 				res
 			);
-			// setSubmitMessage('You have successfully submitted the file.');
-			// console.log(res);
+			window.open(res.data?.viewFile?.uploadData?.signedRequest);
 		} catch (error) {
 			if (error instanceof Error) {
 				setSubmitMessage(error.message);
@@ -200,7 +195,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 									disabled
 										? {
 												opacity: 0.4,
-												fontColor: "black",
+												fontColor: 'black'
 										  }
 										: { opacity: 1.0 }
 								}
