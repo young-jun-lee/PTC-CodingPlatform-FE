@@ -1,12 +1,13 @@
-import axios from "axios";
-import { create } from "domain";
-import { useState } from "react";
+import axios from 'axios';
+import { create } from 'domain';
+import { useState } from 'react';
 import {
 	useCreateSubmissionMutation,
 	useDeleteFileMutation,
 	useExistingSubmissionMutation,
 	useUploadFileMutation,
-} from "../generated/graphql";
+	useViewFileMutation
+} from '../generated/graphql';
 
 const DEFAULT_MAX_SIZE = 15e6;
 
@@ -15,6 +16,10 @@ export interface AWSProps {
 	file: File;
 	path: string;
 	maxSize?: number;
+}
+
+export interface ViewFileProps {
+	question: string;
 }
 
 export interface DBProps {
@@ -30,12 +35,14 @@ export /**
  * @description Provides callbacks and functions to upload files to a public-read AWS bucket
  *
  */
-function useAWSUpload() {
+function useAWS() {
 	const [progress, setProgress] = useState<number>(0);
+	const [viewFileprogress, setViewFileProgress] = useState<number>(0);
 	const [, uploadFile] = useUploadFileMutation();
 	const [, deleteFile] = useDeleteFileMutation();
 	const [, existingSubmission] = useExistingSubmissionMutation();
 	const [, createSubmission] = useCreateSubmissionMutation();
+	const [, viewFile] = useViewFileMutation();
 
 	/**
 	 * @description Uploads a passed file to a public read AWS bucket
@@ -47,14 +54,19 @@ function useAWSUpload() {
 	 * @returns {string} fileKey
 	 */
 
+	async function handleGetUpload(question: string) {
+		const presignedURL = await viewFile({question});
+		return presignedURL;
+	}
+
 	async function handleUpload({
 		file,
 		metadata,
 		path,
-		maxSize = DEFAULT_MAX_SIZE,
+		maxSize = DEFAULT_MAX_SIZE
 	}: AWSProps) {
 		const existingSubmissionObject = await existingSubmission({
-			question: metadata.question,
+			question: metadata.question
 		});
 
 		const existingSubmissionData =
@@ -62,9 +74,9 @@ function useAWSUpload() {
 		if (existingSubmissionData?.errors)
 			throw new Error(existingSubmissionData.errors[0].message);
 
-		if (!file) throw new Error("Did you forget to attach a file?");
+		if (!file) throw new Error('Did you forget to attach a file?');
 		// Get the file type and name
-		const fileType = file.name.split(".").pop();
+		const fileType = file.name.split('.').pop();
 
 		if (fileType !== "py")
 			throw new Error(
@@ -77,11 +89,11 @@ function useAWSUpload() {
 		if (existingSubmissionData?.existing) {
 			if (existingSubmissionData.fileKey) {
 				const deleteSubData = await deleteFile({
-					fileKey: existingSubmissionData.fileKey,
+					fileKey: existingSubmissionData.fileKey
 				});
 				if (deleteSubData.error) {
 					throw new Error(
-						"Previous submission could not be deleted."
+						'Previous submission could not be deleted.'
 					);
 				}
 			}
@@ -92,8 +104,8 @@ function useAWSUpload() {
 				fileName: file.name,
 				fileType,
 				metadata,
-				path,
-			},
+				path
+			}
 		});
 		// console.log(s3UploadData);
 		if (s3UploadData.error?.graphQLErrors) {
@@ -122,7 +134,7 @@ function useAWSUpload() {
 			fileKey,
 			id: existingSubmissionData?.id,
 			creatorId: existingSubmissionData?.creatorId,
-			updates: existingSubmissionData?.updates,
+			updates: existingSubmissionData?.updates
 		});
 		return fileKey;
 	}
@@ -133,15 +145,17 @@ function useAWSUpload() {
 		fileKey,
 		id,
 		creatorId,
-		updates,
+		updates
 	}: DBProps) {
 		const submissionData = await createSubmission({
-			options: { existing, question, fileKey, id, creatorId, updates },
+			options: { existing, question, fileKey, id, creatorId, updates }
 		});
 	}
 
 	return {
 		handleUpload,
+		handleGetUpload,
 		progress,
+		viewFileprogress
 	};
 }

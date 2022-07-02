@@ -110,7 +110,7 @@ export type MutationUploadFileArgs = {
 
 
 export type MutationViewFileArgs = {
-  viewFileInput: ViewFileInput;
+  question: Scalars['String'];
 };
 
 export type PresignedUrlInput = {
@@ -188,11 +188,6 @@ export type UsernamePasswordInput = {
   username: Scalars['String'];
 };
 
-export type ViewFileInput = {
-  question: Scalars['String'];
-  userId: Scalars['String'];
-};
-
 export type RegularMessageFragment = { __typename?: 'MessageField', message: string, field: string };
 
 export type RegularUserFragment = { __typename?: 'User', id: number, username: string, isAdmin: boolean };
@@ -261,6 +256,13 @@ export type UploadFileMutationVariables = Exact<{
 
 
 export type UploadFileMutation = { __typename?: 'Mutation', uploadFile?: { __typename?: 'S3SubmissionResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, uploadData?: { __typename?: 'SignedUrlData', fileKey: string, signedRequest: string } | null } | null };
+
+export type ViewFileMutationVariables = Exact<{
+  question: Scalars['String'];
+}>;
+
+
+export type ViewFileMutation = { __typename?: 'Mutation', viewFile?: { __typename?: 'S3SubmissionResponse', errors?: Array<{ __typename?: 'MessageField', field: string, message: string }> | null, uploadData?: { __typename?: 'SignedUrlData', signedRequest: string, fileKey: string } | null } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -431,6 +433,24 @@ export const UploadFileDocument = gql`
 
 export function useUploadFileMutation() {
   return Urql.useMutation<UploadFileMutation, UploadFileMutationVariables>(UploadFileDocument);
+};
+export const ViewFileDocument = gql`
+    mutation ViewFile($question: String!) {
+  viewFile(question: $question) {
+    errors {
+      field
+      message
+    }
+    uploadData {
+      signedRequest
+      fileKey
+    }
+  }
+}
+    `;
+
+export function useViewFileMutation() {
+  return Urql.useMutation<ViewFileMutation, ViewFileMutationVariables>(ViewFileDocument);
 };
 export const MeDocument = gql`
     query Me {

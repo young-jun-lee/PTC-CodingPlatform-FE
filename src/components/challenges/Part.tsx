@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect, FC } from "react";
 import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
-import { useAWSUpload } from "../../utils/useAWSUpload";
 import { checkDate } from "../../utils/checkDate";
 // import ScrollableMenu from "./ScrollableMenu";
 import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
+import { useAWS } from "../../utils/useAWSUpload";
+import ScrollableMenu from "./ScrollableMenu";
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
@@ -15,8 +16,9 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [uploadFileInput, setUploadFileInput] = useState({});
 	const [{ data, fetching }] = useMeQuery();
 
-	const { handleUpload, progress } = useAWSUpload();
 	const { checkStartDate, checkEndDate } = checkDate();
+
+	const { handleUpload, handleGetUpload, viewFileprogress } = useAWS();
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
@@ -69,11 +71,27 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		}
 	};
 
-	const viewSubmission = async (e, part) => {
+	const viewSubmission = async (e, part: string) => {
 		e.preventDefault();
-
+		console.log(`${week}${questionNum}${part}`);
 		let fileKey;
 		var date;
+		try {
+			const res = await handleGetUpload(`${week}${questionNum}${part}`);
+			console.log(
+				`PresignedURL from : ${week}${questionNum}${part}`,
+				res
+			);
+			window.open(res.data?.viewFile?.uploadData?.signedRequest);
+		} catch (error) {
+			if (error instanceof Error) {
+				setSubmitMessage(error.message);
+			} else {
+				setSubmitMessage(
+					"Something went wrong. Please ensure you are logged in and try again."
+				);
+			}
+		}
 	};
 
 	return (
