@@ -18,7 +18,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 
 	const { checkStartDate, checkEndDate } = checkDate();
 	const { handleUpload, progress } = useAWS();
-	// const { handleGetUpload, viewFileprogress } = useAWS();
+	const { handleGetUpload, viewFileprogress } = useAWS();
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
@@ -74,34 +74,23 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const viewSubmission = async (e, part: string) => {
 		e.preventDefault();
 		console.log(`${week}${questionNum}${part}`);
-		window.open(`/viewSubmission/${week}${questionNum}${part}`);
-		// try {
-		// 	const res = await handleGetUpload(`${week}${questionNum}${part}`);
-		// 	console.log(
-		// 		`PresignedURL from : ${week}${questionNum}${part}`,
-		// 		res
-		// 	);
-		// 	const presignedURL = res.data?.viewFile?.uploadData?.signedRequest;
-		// 	if (typeof presignedURL === 'string') {
-		// 		const file = axios
-		// 			.get(presignedURL)
-		// 			.then((res) => {
-		// 				console.log(res);
-		// 				console.log(res.data);
-		// 			})
-		// 			.catch((err) => console.log(err));
-		// 	}
-		// 	window.open(`/viewSubmission/${week}${questionNum}${part}`);
-		// window.open(presignedURL);
-		// } catch (error) {
-		// 	if (error instanceof Error) {
-		// 		setSubmitMessage(error.message);
-		// 	} else {
-		// 		setSubmitMessage(
-		// 			'Something went wrong. Please ensure you are logged in and try again.'
-		// 		);
-		// 	}
-		// }
+		try {
+			const res = await handleGetUpload(`${week}${questionNum}${part}`);
+			console.log(
+				`PresignedURL from : ${week}${questionNum}${part}`,
+				res
+			);
+			const presignedURL = res.data?.viewFile?.uploadData?.signedRequest;
+			window.open(presignedURL);
+		} catch (error) {
+			if (error instanceof Error) {
+				setSubmitMessage(error.message);
+			} else {
+				setSubmitMessage(
+					'Something went wrong. Please ensure you are logged in and try again.'
+				);
+			}
+		}
 	};
 
 	return (
