@@ -6,14 +6,7 @@ import { checkDate } from "../../utils/checkDate";
 const ChallengesBody: FC<WeekProps> = ({ week }) => {
 	const { checkStartDate } = checkDate();
 
-	const authWeek = () => {
-		const releaseWeek = checkStartDate();
-
-		// return true;
-		return week <= releaseWeek ? true : false;
-	};
-
-	const viewWeek = authWeek();
+	const viewWeek = week <= checkStartDate();
 
 	return (
 		<div className='section' id='home'>
