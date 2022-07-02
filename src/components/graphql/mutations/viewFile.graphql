@@ -1,0 +1,12 @@
+mutation ViewFile($question: String!) {
+	viewFile(question: $question) {
+		errors {
+			field
+			message
+		}
+		uploadData {
+			signedRequest
+			fileKey
+		}
+	}
+}

@@ -1,20 +1,21 @@
-import React, { useContext, useState, useEffect, FC } from "react";
-import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
-import { useAWSUpload } from "../../utils/useAWSUpload";
-import ScrollableMenu from "./ScrollableMenu";
-import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
+import React, { useContext, useState, useEffect, FC } from 'react';
+import { PartsProps, ProblemKeyProps } from '../../common/Interfaces';
+import { useAWS } from '../../utils/useAWSUpload';
+import ScrollableMenu from './ScrollableMenu';
+import { useChangePasswordMutation, useMeQuery } from '../../generated/graphql';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../../utils/createUrqlClient';
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
-	const [submitMessage, setSubmitMessage] = useState("");
+	const [submitMessage, setSubmitMessage] = useState('');
 	const [disabled, setDisabled] = useState(false);
-	const [submissionMessage, setSubmissionMessage] = useState("");
+	const [submissionMessage, setSubmissionMessage] = useState('');
 	const [uploadFileInput, setUploadFileInput] = useState({});
 	const [{ data, fetching }] = useMeQuery();
 
-	const { handleUpload, progress } = useAWSUpload();
+	const { handleUpload, progress } = useAWS();
+	const { handleGetUpload, viewFileprogress } = useAWS();
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
@@ -87,11 +88,32 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		}
 	};
 
-	const viewSubmission = async (e, part) => {
+	const viewSubmission = async (e, part: string) => {
 		e.preventDefault();
-
+		console.log(`${week}${questionNum}${part}`);
 		let fileKey;
 		var date;
+		try {
+			const res = await handleGetUpload(`${week}${questionNum}${part}`);
+
+			// 	{
+			// 	question: `${week}${questionNum}${questionPart}`
+			// });
+			console.log(
+				`PresignedURL from : ${week}${questionNum}${part}`,
+				res
+			);
+			// setSubmitMessage('You have successfully submitted the file.');
+			// console.log(res);
+		} catch (error) {
+			if (error instanceof Error) {
+				setSubmitMessage(error.message);
+			} else {
+				setSubmitMessage(
+					'Something went wrong. Please ensure you are logged in and try again.'
+				);
+			}
+		}
 	};
 
 	return (
