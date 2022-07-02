@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, FC } from "react";
 import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
 import { useAWSUpload } from "../../utils/useAWSUpload";
-import ScrollableMenu from "./ScrollableMenu";
+import { checkDate } from "../../utils/checkDate";
+// import ScrollableMenu from "./ScrollableMenu";
 import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
@@ -15,10 +16,11 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [{ data, fetching }] = useMeQuery();
 
 	const { handleUpload, progress } = useAWSUpload();
+	const { checkStartDate, checkEndDate } = checkDate();
 
 	function getData(spec) {
 		if (Array.isArray(spec)) {
-			return spec.map((sample) => <div>{sample}</div>);
+			return spec.map((sample, index) => <div key={index}>{sample}</div>);
 		}
 		return <div>{spec}</div>;
 	}
@@ -27,35 +29,15 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		setFile(e.target.files[0]);
 	};
 
-	function deadlineCutoff() {
-		const today = new Date(Date.now());
-		const week1End = new Date(Date.UTC(2021, 6, 12, 4, 0, 0));
-		const week2End = new Date(Date.UTC(2021, 6, 19, 4, 0, 0));
-		const week3End = new Date(Date.UTC(2021, 6, 26, 4, 0, 0));
-		const week4End = new Date(Date.UTC(2021, 7, 2, 4, 0, 0));
-
-		if (week === 4 && today.getTime() > week4End.getTime()) {
-			return false;
-		} else if (week === 3 && today.getTime() > week3End.getTime()) {
-			return false;
-		} else if (week === 2 && today.getTime() > week2End.getTime()) {
-			return false;
-		} else if (week === 1 && today.getTime() > week1End.getTime()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	const onSubmit = async (e, questionPart: string) => {
 		e.preventDefault();
 		try {
-			// if (!deadlineCutoff()) {
-			// 	setSubmitMessage(
-			// 		"The deadline has passed and submissions are now closed"
-			// 	);
-			// 	return;
-			// }
+			if (!checkEndDate(week)) {
+				setSubmitMessage(
+					"The deadline has passed and submissions are now closed"
+				);
+				return;
+			}
 			if (!file) {
 				setSubmitMessage("You have not entered a file to submit.");
 				return;
@@ -139,53 +121,50 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 						</div>
 					))}
 				</div>
-				<form
-					className='problem-button-container'
-					// onSubmit={(e) => onSubmit(e, problemKeys.part)}
-				>
-					{/* {console.log("variables: ", variables)} */}
-					{/* {console.log("data: ", data)} */}
-					{/* {status.loggedIn?.admin && (
+				<form className='problem-button-container'>
+					{/* {data?.me && data?.me.isAdmin && (
 						<>
 							<ScrollableMenu
-								question={`${week}${props.questionNum}${props.problemKeys.part}`}
+								question={`${week}${questionNum}${problemKeys.part}`}
 							/>
-						</>
-					)}
-
-					{!status.loggedIn?.loggedIn && (
-						<>
-							<div>Please log in to submit a file</div>
 						</>
 					)} */}
 
-					<>
-						{/* {status.loggedIn?.week === parseInt(props.week) && ( */}
+					{!data?.me && (
 						<>
-							<input
-								type='file'
-								accept='text/plain'
-								className='choose-file-button problem-button'
-								id='choose-file'
-								onChange={onChange}
-							/>
-							<input
-								disabled={disabled}
-								type='submit'
-								onClick={(e) => onSubmit(e, problemKeys.part)}
-								className='file-submit-button problem-button'
-								style={
-									disabled
-										? {
-												opacity: 0.4,
-												fontColor: "black",
-										  }
-										: { opacity: 1.0 }
-								}
-							/>
-							<div>{submitMessage}</div>
+							<div>Please log in to submit a file</div>
 						</>
-						{/* )} */}
+					)}
+
+					<>
+						{checkStartDate() === week && (
+							<>
+								<input
+									type='file'
+									accept='text/plain'
+									className='choose-file-button problem-button'
+									id='choose-file'
+									onChange={onChange}
+								/>
+								<input
+									disabled={disabled}
+									type='submit'
+									onClick={(e) =>
+										onSubmit(e, problemKeys.part)
+									}
+									className='file-submit-button problem-button'
+									style={
+										disabled
+											? {
+													opacity: 0.4,
+													fontColor: "black",
+											  }
+											: { opacity: 1.0 }
+									}
+								/>
+								<div>{submitMessage}</div>
+							</>
+						)}
 						{/* {status.loggedIn?.week !== parseInt(props.week) && (
 							<>
 								<div>
