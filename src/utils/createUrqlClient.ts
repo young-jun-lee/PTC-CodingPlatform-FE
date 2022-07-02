@@ -43,7 +43,7 @@ export const createUrqlClient = (ssrExchange: any) => ({
 					// we don't want to actually invalidate the cache, bc we want to keep the user, instead we just set the mequery value to null
 					// updater function sets the query me value to null
 					// MeDocument is the auto-generated document in graphql that represents the MeQuery
-					logout: (_result, args, cache, info) => {
+					logout: (_result, _args, cache, _info) => {
 						betterUpdateQuery<LogoutMutation, MeQuery>(
 							cache,
 							{ query: MeDocument },

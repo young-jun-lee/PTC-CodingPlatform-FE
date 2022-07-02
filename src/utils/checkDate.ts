@@ -1,17 +1,19 @@
 export const checkDate = () => {
 	const currentDate = new Date(Date.now());
 	const weekStarts = {
-		week1: new Date(Date.UTC(2022, 6, 10, 4, 0, 0)),
-		week2: new Date(Date.UTC(2022, 6, 17, 4, 0, 0)),
-		week3: new Date(Date.UTC(2022, 6, 24, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 6, 31, 4, 0, 0)),
+		// TODO: change month back to 5 later
+		week1: new Date(Date.UTC(2022, 4, 10, 4, 0, 0)),
+		week2: new Date(Date.UTC(2022, 4, 17, 4, 0, 0)),
+		week3: new Date(Date.UTC(2022, 4, 24, 4, 0, 0)),
+		week4: new Date(Date.UTC(2022, 4, 31, 4, 0, 0)),
 	};
 
 	const weekEnds = {
-		week1: new Date(Date.UTC(2022, 5, 16, 4, 0, 0)),
-		week2: new Date(Date.UTC(2022, 6, 23, 4, 0, 0)),
-		week3: new Date(Date.UTC(2022, 6, 30, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 7, 6, 4, 0, 0)),
+		// TODO: change month back to 6? later
+		week1: new Date(Date.UTC(2022, 8, 16, 4, 0, 0)),
+		week2: new Date(Date.UTC(2022, 8, 23, 4, 0, 0)),
+		week3: new Date(Date.UTC(2022, 8, 30, 4, 0, 0)),
+		week4: new Date(Date.UTC(2022, 9, 6, 4, 0, 0)),
 	};
 
 	const checkStartDate = () => {
