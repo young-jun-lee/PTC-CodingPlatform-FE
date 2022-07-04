@@ -15,23 +15,24 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [submissionMessage, setSubmissionMessage] = useState("");
 	const [uploadFileInput, setUploadFileInput] = useState({});
 	const [{ data, fetching }] = useMeQuery();
-
 	const { checkStartDate, checkEndDate } = checkDate();
-
 	const { handleUpload, handleGetUpload, viewFileprogress } = useAWS();
 
-	function getData(spec) {
+	function getData(spec: any) {
 		if (Array.isArray(spec)) {
 			return spec.map((sample, index) => <div key={index}>{sample}</div>);
 		}
 		return <div>{spec}</div>;
 	}
 
-	const onChange = (e) => {
+	const onChange = (e: any) => {
 		setFile(e.target.files[0]);
 	};
 
-	const onSubmit = async (e, questionPart: string) => {
+	const onSubmit = async (
+		e: React.MouseEvent<HTMLInputElement, MouseEvent>,
+		questionPart: string
+	) => {
 		e.preventDefault();
 		try {
 			if (!checkEndDate(week)) {
@@ -71,7 +72,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		}
 	};
 
-	const viewSubmission = async (e, part: string) => {
+	const viewSubmission = async (e: any, part: string) => {
 		e.preventDefault();
 		console.log(`${week}${questionNum}${part}`);
 		let fileKey;
@@ -155,35 +156,32 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 					)}
 
 					<>
-						{checkStartDate() === week && (
-							<>
-								<input
-									type='file'
-									accept='text/plain'
-									className='choose-file-button problem-button'
-									id='choose-file'
-									onChange={onChange}
-								/>
-								<input
-									disabled={disabled}
-									type='submit'
-									onClick={(e) =>
-										onSubmit(e, problemKeys.part)
-									}
-									className='file-submit-button problem-button'
-									style={
-										disabled
-											? {
-													opacity: 0.4,
-													fontColor: "black",
-											  }
-											: { opacity: 1.0 }
-									}
-								/>
-								<div>{submitMessage}</div>
-							</>
-						)}
-						{/* {status.loggedIn?.week !== parseInt(props.week) && (
+						{/* {checkStartDate() === week && ( */}
+						<>
+							<input
+								type='file'
+								accept='text/plain'
+								className='choose-file-button problem-button'
+								id='choose-file'
+								onChange={onChange}
+							/>
+							<input
+								disabled={disabled}
+								type='submit'
+								onClick={(e) => onSubmit(e, problemKeys.part)}
+								className='file-submit-button problem-button'
+								style={
+									disabled
+										? {
+												opacity: 0.4,
+										  }
+										: { opacity: 1.0 }
+								}
+							/>
+							<div>{submitMessage}</div>
+						</>
+						{/* )} */}
+						{/* {checkStartDate() !== week && (
 							<>
 								<div>
 									You are no longer able to submit for this
@@ -206,4 +204,4 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	);
 };
 
-export default withUrqlClient(createUrqlClient)(Part);
+export default Part;

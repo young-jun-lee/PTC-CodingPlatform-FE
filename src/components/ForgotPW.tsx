@@ -106,4 +106,4 @@ const ForgotPW: React.FC<{}> = () => {
 	);
 };
 
-export default withUrqlClient(createUrqlClient)(ForgotPW);
+export default ForgotPW;

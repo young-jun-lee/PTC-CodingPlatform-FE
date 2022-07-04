@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { create } from 'domain';
-import { useState } from 'react';
+import axios from "axios";
+import { create } from "domain";
+import { useState } from "react";
 import {
 	useCreateSubmissionMutation,
 	useDeleteFileMutation,
 	useExistingSubmissionMutation,
 	useUploadFileMutation,
-	useViewFileMutation
-} from '../generated/graphql';
+	useViewFileMutation,
+} from "../generated/graphql";
 
 const DEFAULT_MAX_SIZE = 15e6;
 
@@ -55,7 +55,7 @@ function useAWS() {
 	 */
 
 	async function handleGetUpload(question: string) {
-		const presignedURL = await viewFile({question});
+		const presignedURL = await viewFile({ question });
 		return presignedURL;
 	}
 
@@ -63,10 +63,10 @@ function useAWS() {
 		file,
 		metadata,
 		path,
-		maxSize = DEFAULT_MAX_SIZE
+		maxSize = DEFAULT_MAX_SIZE,
 	}: AWSProps) {
 		const existingSubmissionObject = await existingSubmission({
-			question: metadata.question
+			question: metadata.question,
 		});
 
 		const existingSubmissionData =
@@ -74,9 +74,9 @@ function useAWS() {
 		if (existingSubmissionData?.errors)
 			throw new Error(existingSubmissionData.errors[0].message);
 
-		if (!file) throw new Error('Did you forget to attach a file?');
+		if (!file) throw new Error("Did you forget to attach a file?");
 		// Get the file type and name
-		const fileType = file.name.split('.').pop();
+		const fileType = file.name.split(".").pop();
 
 		if (fileType !== "py")
 			throw new Error(
@@ -89,11 +89,11 @@ function useAWS() {
 		if (existingSubmissionData?.existing) {
 			if (existingSubmissionData.fileKey) {
 				const deleteSubData = await deleteFile({
-					fileKey: existingSubmissionData.fileKey
+					fileKey: existingSubmissionData.fileKey,
 				});
 				if (deleteSubData.error) {
 					throw new Error(
-						'Previous submission could not be deleted.'
+						"Previous submission could not be deleted."
 					);
 				}
 			}
@@ -104,11 +104,12 @@ function useAWS() {
 				fileName: file.name,
 				fileType,
 				metadata,
-				path
-			}
+				path,
+			},
 		});
 		// console.log(s3UploadData);
 		if (s3UploadData.error?.graphQLErrors) {
+			console.log(s3UploadData.error?.graphQLErrors);
 			throw new Error(
 				"Something went wrong. Please ensure you are logged in and try again." +
 					"If this error persists please email us at coding.challenge@projecttechconferences.com ASAP"
@@ -134,7 +135,7 @@ function useAWS() {
 			fileKey,
 			id: existingSubmissionData?.id,
 			creatorId: existingSubmissionData?.creatorId,
-			updates: existingSubmissionData?.updates
+			updates: existingSubmissionData?.updates,
 		});
 		return fileKey;
 	}
@@ -145,10 +146,10 @@ function useAWS() {
 		fileKey,
 		id,
 		creatorId,
-		updates
+		updates,
 	}: DBProps) {
 		const submissionData = await createSubmission({
-			options: { existing, question, fileKey, id, creatorId, updates }
+			options: { existing, question, fileKey, id, creatorId, updates },
 		});
 	}
 
@@ -156,6 +157,6 @@ function useAWS() {
 		handleUpload,
 		handleGetUpload,
 		progress,
-		viewFileprogress
+		viewFileprogress,
 	};
 }
