@@ -130,7 +130,7 @@ function useAWS() {
 		await axios.put(signedRequest, file);
 
 		const dbSubmission = await uploadDB({
-			existing: existingSubmissionData.existing,
+			existing: existingSubmissionData?.existing as boolean,
 			question: metadata.question,
 			fileKey,
 			id: existingSubmissionData?.id,

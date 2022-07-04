@@ -58,4 +58,4 @@ const Problem: FC<ProblemProps> = ({ questionNum, week }) => {
 	);
 };
 
-export default withUrqlClient(createUrqlClient)(Problem);
+export default Problem;
