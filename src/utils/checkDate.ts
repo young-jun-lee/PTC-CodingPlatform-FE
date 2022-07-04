@@ -5,7 +5,7 @@ export const checkDate = () => {
 		week1: new Date(Date.UTC(2022, 4, 10, 4, 0, 0)),
 		week2: new Date(Date.UTC(2022, 4, 17, 4, 0, 0)),
 		week3: new Date(Date.UTC(2022, 4, 24, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 4, 31, 4, 0, 0)),
+		week4: new Date(Date.UTC(2022, 4, 31, 4, 0, 0))
 	};
 
 	const weekEnds = {
@@ -13,7 +13,7 @@ export const checkDate = () => {
 		week1: new Date(Date.UTC(2022, 8, 16, 4, 0, 0)),
 		week2: new Date(Date.UTC(2022, 8, 23, 4, 0, 0)),
 		week3: new Date(Date.UTC(2022, 8, 30, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 9, 6, 4, 0, 0)),
+		week4: new Date(Date.UTC(2022, 9, 6, 4, 0, 0))
 	};
 
 	const checkStartDate = () => {
@@ -26,11 +26,11 @@ export const checkDate = () => {
 	};
 
 	const checkEndDate = (week: number) => {
-		console.log("week: ", week);
-		console.log("currentDate: ", currentDate);
-		console.log("week1ends: ", weekEnds.week1);
+		console.log('week: ', week);
+		console.log('currentDate: ', currentDate);
+		console.log('week1ends: ', weekEnds.week1);
 		console.log(
-			"comparing dates: ",
+			'comparing dates: ',
 			currentDate.getTime() > weekEnds.week1.getTime()
 		);
 		if (week === 4 && currentDate.getTime() > weekEnds.week4.getTime()) {
