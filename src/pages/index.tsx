@@ -21,7 +21,7 @@ const Landing: NextPage = () => {
 					<div className='codingChallenge landing-box'>
 						<div className='whatTitle'>
 							<h2 className='landingTitle'>
-								What is PTC × Angstrom's Coding Challenge?
+								PTC’s Coding Challenge?
 							</h2>
 						</div>
 						<p className='welcomeContent'>{Text.whatParaOne}</p>
