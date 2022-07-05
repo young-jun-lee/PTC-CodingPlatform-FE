@@ -21,14 +21,8 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 			<Banner page='Reset Password'></Banner>
 			<div className='resetPW-component'>
 				<div className='reset-body'>
-					<img
-						className='ptc-logo'
-						src={data.ptcIcon.src}
-						alt='#'
-					></img>
-
-					<div className='reset-text'>
-						Enter your new password below
+					<div className='login-text'>
+						Set your new password below
 					</div>
 					<Formik
 						initialValues={{ newPassword: "" }}
@@ -55,7 +49,7 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 						{({ isSubmitting }) => (
 							<Form className='reset-form'>
 								<input
-									className='reset-text'
+									className='input-text'
 									type='password'
 									placeholder='Password'
 									onChange={(e) =>
@@ -66,9 +60,7 @@ const ChangePassword: NextPage<{ token: string }> = () => {
 								<div className='message-to-user error-message'>
 									{errorMessage}
 								</div>
-								{/* <div className='message-to-user success-message'>
-							{successMessage}
-						</div>  */}
+
 								<Button
 									isLoading={isSubmitting}
 									w='100%'

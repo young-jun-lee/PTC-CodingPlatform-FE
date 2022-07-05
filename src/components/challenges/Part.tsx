@@ -147,38 +147,38 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 							/>
 						</>
 					)} */}
-
-					{!data?.me && (
+					{!data?.me ? (
 						<>
 							<div>Please log in to submit a file</div>
 						</>
-					)}
-
-					<>
-						{/* {checkStartDate() === week && ( */}
+					) : (
 						<>
-							<input
-								type='file'
-								accept='text/plain'
-								className='choose-file-button problem-button'
-								id='choose-file'
-								onChange={onChange}
-							/>
-							<input
-								disabled={disabled}
-								type='submit'
-								onClick={(e) => onSubmit(e, problemKeys.part)}
-								className='file-submit-button problem-button'
-								style={
-									disabled
-										? { opacity: 0.4 }
-										: { opacity: 1.0 }
-								}
-							/>
-							<div>{submitMessage}</div>
-						</>
-						{/* )} */}
-						{/* {status.loggedIn?.week !== parseInt(props.week) && (
+							{/* {checkStartDate() === week && ( */}
+							<>
+								<input
+									type='file'
+									accept='text/plain'
+									className='choose-file-button problem-button'
+									id='choose-file'
+									onChange={onChange}
+								/>
+								<input
+									disabled={disabled}
+									type='submit'
+									onClick={(e) =>
+										onSubmit(e, problemKeys.part)
+									}
+									className='file-submit-button problem-button'
+									style={
+										disabled
+											? { opacity: 0.4 }
+											: { opacity: 1.0 }
+									}
+								/>
+								<div>{submitMessage}</div>
+							</>
+							{/* )} */}
+							{/* {status.loggedIn?.week !== parseInt(props.week) && (
 							<>
 								<div>
 									You are no longer able to submit for this
@@ -187,14 +187,17 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 								<br></br>
 							</>
 						)} */}
-						<button
-							className='problem-button file-submit-button view-button'
-							onClick={(e) => viewSubmission(e, problemKeys.part)}
-						>
-							View Submission
-						</button>
-						<div>{submissionMessage}</div>
-					</>
+							<button
+								className='problem-button file-submit-button view-button'
+								onClick={(e) =>
+									viewSubmission(e, problemKeys.part)
+								}
+							>
+								View Submission
+							</button>
+							<div>{submissionMessage}</div>
+						</>
+					)}
 				</form>
 			</div>
 		</div>
