@@ -107,7 +107,7 @@ function useAWS() {
 				path,
 			},
 		});
-		// console.log(s3UploadData);
+		console.log(s3UploadData);
 		if (s3UploadData.error?.graphQLErrors) {
 			console.log(s3UploadData.error?.graphQLErrors);
 			throw new Error(

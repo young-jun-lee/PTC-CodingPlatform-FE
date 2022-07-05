@@ -1,10 +1,8 @@
 import { Button } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
 import data from "../content/loginsignup";
 import { useForgotPasswordMutation } from "../generated/graphql";
-import { createUrqlClient } from "../utils/createUrqlClient";
 
 const ForgotPW: React.FC<{}> = () => {
 	const [email, setEmail] = useState("");
@@ -76,32 +74,6 @@ const ForgotPW: React.FC<{}> = () => {
 					)
 				}
 			</Formik>
-
-			{/* <form className='login-form' onSubmit={submitForm}>
-					<input
-						className='input-text forgot-pw-input-email'
-						type='text'
-						placeholder='Email address'
-						onChange={(e) => setEmail(e.target.value)}
-						value={email}
-					></input>
-					<div
-						className='message-to-user error-message'
-						style={messageSent ? { display: "none" } : {}}
-					>
-						{errorMessage}
-					</div>
-					<div className='message-to-user success-message'>
-						{successMessage}
-					</div>
-
-					<input
-						className='input-submit'
-						type='submit'
-						style={messageSent ? { display: "none" } : {}}
-						disabled={messageSent}
-					></input>
-				</form> */}
 		</div>
 	);
 };

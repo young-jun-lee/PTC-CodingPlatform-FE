@@ -155,31 +155,29 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 					)}
 
 					<>
-						{checkStartDate() === week && (
-							<>
-								<input
-									type='file'
-									accept='text/plain'
-									className='choose-file-button problem-button'
-									id='choose-file'
-									onChange={onChange}
-								/>
-								<input
-									disabled={disabled}
-									type='submit'
-									onClick={(e) =>
-										onSubmit(e, problemKeys.part)
-									}
-									className='file-submit-button problem-button'
-									style={
-										disabled
-											? { opacity: 0.4 }
-											: { opacity: 1.0 }
-									}
-								/>
-								<div>{submitMessage}</div>
-							</>
-						)}
+						{/* {checkStartDate() === week && ( */}
+						<>
+							<input
+								type='file'
+								accept='text/plain'
+								className='choose-file-button problem-button'
+								id='choose-file'
+								onChange={onChange}
+							/>
+							<input
+								disabled={disabled}
+								type='submit'
+								onClick={(e) => onSubmit(e, problemKeys.part)}
+								className='file-submit-button problem-button'
+								style={
+									disabled
+										? { opacity: 0.4 }
+										: { opacity: 1.0 }
+								}
+							/>
+							<div>{submitMessage}</div>
+						</>
+						{/* )} */}
 						{/* {status.loggedIn?.week !== parseInt(props.week) && (
 							<>
 								<div>

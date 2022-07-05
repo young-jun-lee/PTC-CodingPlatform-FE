@@ -1,10 +1,9 @@
-import React from 'react';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../utils/createUrqlClient';
-import Text from '../content/rules';
-console.log(Text);
-import Banner from '../components/Banner';
-import Navbar from '../components/Navbar';
+import React from "react";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../utils/createUrqlClient";
+import Text from "../content/rules";
+import Banner from "../components/Banner";
+import Navbar from "../components/Navbar";
 const RulesBody = () => {
 	return (
 		<div className='section' id='home'>
@@ -19,7 +18,9 @@ const RulesBody = () => {
 				<div className='box box2'>
 					<h2 className='title title2'>{Text.title2}</h2>
 					{Text.text2.map((text, index) => (
-						<li className='text'>{text}</li>
+						<li className='text' key={index}>
+							{text}
+						</li>
 					))}
 				</div>
 
@@ -42,26 +43,26 @@ const RulesBody = () => {
 						<ol>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_3}
 							</li>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_4}
 							</li>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_5}
 							</li>
 							<ol>
 								<li
 									className='text'
-									style={{ listStyleType: 'lower-roman' }}
+									style={{ listStyleType: "lower-roman" }}
 								>
 									{Text.text4_6}
 								</li>
@@ -73,27 +74,27 @@ const RulesBody = () => {
 						<ol>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_8}
 							</li>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_9}
 							</li>
 							<ol>
 								<li
 									className='text'
-									style={{ listStyleType: 'lower-roman' }}
+									style={{ listStyleType: "lower-roman" }}
 								>
 									{Text.text4_10}
 								</li>
 							</ol>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_11}
 							</li>
@@ -104,13 +105,13 @@ const RulesBody = () => {
 						<ol>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_13}
 							</li>
 							<li
 								className='text'
-								style={{ listStyleType: 'lower-alpha' }}
+								style={{ listStyleType: "lower-alpha" }}
 							>
 								{Text.text4_14}
 							</li>
@@ -153,7 +154,7 @@ const RulesBody = () => {
 					</div>
 					<div className='text technical-issues margin-up'>
 						Submissions through this method will only be accepted
-						if:{' '}
+						if:{" "}
 					</div>
 					<ul className='technical-issues'>
 						<li className='text'>
