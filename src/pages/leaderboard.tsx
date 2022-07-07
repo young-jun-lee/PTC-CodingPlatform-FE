@@ -9,9 +9,6 @@ import { useTopScoresQuery, useUserPointsQuery } from "../generated/graphql";
 const Leaderboard = () => {
 	const [pLeaderboardInfo, setPLeaderboardInfo] = useState();
 	const [pLeaderboardInfoSub, setPLeaderboardInfoSub] = useState([]);
-	const [variables, setVariables] = useState({
-		username: "test1",
-	});
 	const [{ data, fetching }] = useTopScoresQuery();
 	const router = useRouter();
 
@@ -30,6 +27,7 @@ const Leaderboard = () => {
 		<div className='section' id='leaderboard'>
 			<Navbar />
 			<Banner page='TOP 10 Leaderboard' />
+			{console.log(data)}
 			{!data?.topScores && fetching ? (
 				<div className='leaderboardContainer'>
 					<p>data is loading...</p>
@@ -49,7 +47,7 @@ const Leaderboard = () => {
 							<tr key={index}>
 								<td>{post.rank}</td>
 								<td>{post.username}</td>
-								<td>{post.points}</td>
+								<td>{post.totalPoints}</td>
 							</tr>
 						))}
 					</tbody>

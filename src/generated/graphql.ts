@@ -62,6 +62,7 @@ export type Mutation = {
   login: UserResponse;
   logout: Scalars['Boolean'];
   register: UserResponse;
+  updatePoints: MessageField;
   uploadFile?: Maybe<S3SubmissionResponse>;
   viewFile?: Maybe<S3SubmissionResponse>;
 };
@@ -101,6 +102,11 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   options: UsernamePasswordInput;
+};
+
+
+export type MutationUpdatePointsArgs = {
+  rows: Array<UpdatePointsInput>;
 };
 
 
@@ -155,9 +161,14 @@ export type Submissions = {
 
 export type TopQuery = {
   __typename?: 'TopQuery';
-  points: Scalars['Float'];
   rank: Scalars['Float'];
+  totalPoints: Scalars['Float'];
   username: Scalars['String'];
+};
+
+export type UpdatePointsInput = {
+  fileKey: Scalars['String'];
+  points: Scalars['Float'];
 };
 
 export type User = {
@@ -250,6 +261,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, success?: Array<{ __typename?: 'MessageField', message: string, field: string }> | null, user?: { __typename?: 'User', id: number, username: string, isAdmin: boolean } | null } };
 
+export type UpdatePointsMutationVariables = Exact<{
+  rows: Array<UpdatePointsInput> | UpdatePointsInput;
+}>;
+
+
+export type UpdatePointsMutation = { __typename?: 'Mutation', updatePoints: { __typename?: 'MessageField', field: string, message: string } };
+
 export type UploadFileMutationVariables = Exact<{
   presignedUrlInput: PresignedUrlInput;
 }>;
@@ -272,7 +290,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', isAdmi
 export type TopScoresQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'TopQuery', username: string, points: number, rank: number }> | null };
+export type TopScoresQuery = { __typename?: 'Query', topScores?: Array<{ __typename?: 'TopQuery', username: string, totalPoints: number, rank: number }> | null };
 
 export type UserPointsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -417,6 +435,18 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const UpdatePointsDocument = gql`
+    mutation UpdatePoints($rows: [UpdatePointsInput!]!) {
+  updatePoints(rows: $rows) {
+    field
+    message
+  }
+}
+    `;
+
+export function useUpdatePointsMutation() {
+  return Urql.useMutation<UpdatePointsMutation, UpdatePointsMutationVariables>(UpdatePointsDocument);
+};
 export const UploadFileDocument = gql`
     mutation UploadFile($presignedUrlInput: PresignedUrlInput!) {
   uploadFile(presignedUrlInput: $presignedUrlInput) {
@@ -468,7 +498,7 @@ export const TopScoresDocument = gql`
     query TopScores {
   topScores {
     username
-    points
+    totalPoints
     rank
   }
 }

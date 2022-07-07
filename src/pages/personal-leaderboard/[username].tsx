@@ -7,35 +7,8 @@ import Navbar from "../../components/Navbar";
 import { useUserPointsQuery } from "../../generated/graphql";
 
 const PLeaderboard = () => {
-	const [pLeaderboardInfo, setPLeaderboardInfo] = useState();
-	const [pLeaderboardInfoSub, setPLeaderboardInfoSub] = useState([]);
-	const [variables, setVariables] = useState({
-		username: "test",
-	});
 	const [{ data, fetching }] = useUserPointsQuery();
-	// const router = useRouter();
 
-	// console.log(variables);
-	// const username =
-	// 	typeof router.query.username === "string" ? router.query.username : "";
-	// const getPLeaderboardInfo = async () => {
-	// 	const results = useUserPointsQuery();
-	// 	const resultsPoints = results[0].data?.userPoints;
-
-	// 	// console.log(typeof results[0].data?.userPoints);
-	// 	setPLeaderboardInfo(resultsPoints);
-	// 	// return results[0].data?.userPoints;
-	// };
-	// const results = getPLeaderboardInfo();
-	// console.log(data);
-
-	// // console.log(router.query.username);
-	// useEffect(() => {
-	// 	getPLeaderboardInfo();
-	// }, []);
-	// if (!fetching && !data) {
-	// 	return <div>Query returned no results.</div>;
-	// }
 	return (
 		<div className='section' id='leaderboard'>
 			<Navbar />

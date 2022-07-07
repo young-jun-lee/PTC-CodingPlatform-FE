@@ -1,0 +1,6 @@
+mutation UpdatePoints($rows: [UpdatePointsInput!]!) {
+	updatePoints(rows: $rows) {
+		field
+		message
+	}
+}
