@@ -40,82 +40,12 @@ table tr:nth-of-type(even) td {
 }
 
 .leaderboardContainer {
-	height: 100vh;
+	height: 60vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 25px;
 }
-
-/* .leaderboardContainer { */
-/* min-width: 50%; */
-/* margin: auto; */
-/* padding: 30px; */
-/* display: flex; */
-/* justify-content: center; */
-/* align-items: center; */
-/* font-size: 25px; */
-/* height: 50vh; */
-/* } */
-/* @media only screen and (min-width: 1097px) { */
-/* .leaderboardContainer { */
-/* width: 768px; */
-/* min-width: 50%; */
-/* height: 30vh; */
-/* } */
-/* } */
-
-/* @media only screen and (max-width: 760px) {
-  /* p {
-    display: block;
-    font-weight: bold;
-  } 
-  table tr td:not(:first-child),
-  table tr th:not(:first-child),
-  table tr td:not(.total-val) {
-    display: none;
-  }
-  table tr:nth-of-type(even) td:first-child {
-    background-color: #fff;
-  }
-  table tr:nth-of-type(odd) td:first-child {
-    background-color: white;
-  }
-  table tr:nth-of-type(even) td:not(:first-child) {
-    background-color: white;
-  }
-  table tr th:first-child {
-    width: 100%;
-    display: block;
-  }
-  table tr th:not(:first-child) {
-    width: 40%;
-    transition: transform 0.4s ease-out;
-    transform: translateY(-9999px);
-    position: relative;
-    z-index: -1;
-  }
-  table tr td:not(:first-child) {
-    transition: transform 0.4s ease-out;
-    transform: translateY(-9999px);
-    width: 60%;
-    position: relative;
-    z-index: -1;
-  }
-  table tr td:first-child {
-    display: block;
-    cursor: pointer;
-  }
-  table tr.total th {
-    width: 25%;
-    display: inline-block;
-  }
-  table tr td.total-val {
-    display: inline-block;
-    transform: translateY(0);
-    width: 75%;
-  }
-} */
 
 .week-row {
 	background-color: rgb(108, 189, 171);

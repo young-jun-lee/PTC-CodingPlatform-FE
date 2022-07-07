@@ -12,7 +12,7 @@ const Leaderboard = () => {
 	const [{ data, fetching }] = useTopScoresQuery();
 	const router = useRouter();
 
-	if (!fetching && !data) {
+	if ((!fetching && !data) || data?.topScores?.length == 0) {
 		return (
 			<div className='section' id='leaderboard'>
 				<Navbar />

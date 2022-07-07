@@ -8,7 +8,22 @@ import { useUserPointsQuery } from "../../generated/graphql";
 
 const PLeaderboard = () => {
 	const [{ data, fetching }] = useUserPointsQuery();
-
+	if ((!fetching && !data) || data?.userPoints?.length == 0) {
+		return (
+			<div className='section' id='leaderboard'>
+				<Navbar />
+				<Banner page='Personal Leaderboard' />
+				<div className='leaderboardContainer'>
+					<div>
+						Your submissions have not been marked yet.
+						<br />
+						Check back later to see your results!
+					</div>
+					<div></div>
+				</div>
+			</div>
+		);
+	}
 	return (
 		<div className='section' id='leaderboard'>
 			<Navbar />

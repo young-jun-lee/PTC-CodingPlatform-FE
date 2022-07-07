@@ -16,6 +16,7 @@
 	z-index: 500;
 	flex-direction: column;
 	position: relative;
+	/* padding-top: 32px; */
 	padding: 32px;
 	border-radius: 1.5em;
 	/* z-index: 2; */
@@ -27,6 +28,7 @@
 
 .close-btn {
 	/* width: fit-content; */
+	/* top: 32px; */
 	align-self: flex-end;
 	/* color: black; */
 	/* transform: scale(1.2); */
