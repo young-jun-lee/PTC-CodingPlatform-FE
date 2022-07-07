@@ -4,6 +4,7 @@ export default function Document() {
 	return (
 		<Html>
 			<Head>
+				<title>PTC Coding Challenge</title>
 				<link
 					href='https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&display=swap'
 					rel='stylesheet'

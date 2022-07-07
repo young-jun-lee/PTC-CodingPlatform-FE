@@ -128,7 +128,12 @@ function useAWS() {
 
 		// TODO: do err handling on axios request
 		await axios.put(signedRequest, file, {
-			headers: { "Content-Type": "text/x-python" },
+			withCredentials: false,
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Methods":
+					"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+			},
 		});
 
 		const dbSubmission = await uploadDB({
