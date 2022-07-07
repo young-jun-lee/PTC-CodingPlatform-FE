@@ -10,6 +10,7 @@ import {
 	RegisterMutation,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
+import { isServer } from "./isServer";
 
 const errorExchange: Exchange =
 	({ forward }) =>
@@ -24,15 +25,17 @@ const errorExchange: Exchange =
 		);
 	};
 
-export const createUrqlClient = (ssrExchange: any) => (
-	console.log("backend URL:", process.env.BACKEND_URL),
-	{
-		// url: "http://localhost:4000/graphql",
-
+export const createUrqlClient = (ssrExchange: any, ctx: any) => {
+	let cookie = "";
+	if (isServer()) {
+		cookie = ctx?.req?.headers?.cookie;
+	}
+	// url: "http://localhost:4000/graphql",
+	return {
 		url: process.env.NEXT_PUBLIC_API_URL as string,
 		fetchOptions: {
 			credentials: "include" as const,
-			headers: { "X-Forwarded-Proto": "https" },
+			headers: cookie ? { cookie } : undefined,
 		},
 		exchanges: [
 			dedupExchange,
@@ -94,5 +97,5 @@ export const createUrqlClient = (ssrExchange: any) => (
 			errorExchange,
 			fetchExchange,
 		],
-	}
-);
+	};
+};
