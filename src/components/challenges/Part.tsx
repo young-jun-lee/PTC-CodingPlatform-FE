@@ -1,18 +1,19 @@
-import React, { useContext, useState, useEffect, FC } from "react";
-import axios from "axios";
-import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
-import { useAWS } from "../../utils/useAWSUpload";
-import { checkDate } from "../../utils/checkDate";
-import ScrollableMenu from "./ScrollableMenu";
-import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
+import React, { useContext, useState, useEffect, FC } from 'react';
+import axios from 'axios';
+import { PartsProps, ProblemKeyProps } from '../../common/Interfaces';
+import { useAWS } from '../../utils/useAWSUpload';
+import { checkDate } from '../../utils/checkDate';
+import ScrollableMenu from './ScrollableMenu';
+import { useChangePasswordMutation, useMeQuery } from '../../generated/graphql';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../../utils/createUrqlClient';
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
-	const [submitMessage, setSubmitMessage] = useState("");
+	const [submitMessage, setSubmitMessage] = useState('');
+	const [viewFileMessage, setViewFileMessage] = useState('');
 	const [disabled, setDisabled] = useState(false);
-	const [submissionMessage, setSubmissionMessage] = useState("");
+	const [submissionMessage, setSubmissionMessage] = useState('');
 	const [uploadFileInput, setUploadFileInput] = useState({});
 	const [{ data, fetching }] = useMeQuery();
 	const { checkStartDate, checkEndDate } = checkDate();
@@ -37,31 +38,31 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		try {
 			if (!checkEndDate(week)) {
 				setSubmitMessage(
-					"The deadline has passed and submissions are now closed"
+					'The deadline has passed and submissions are now closed'
 				);
 				return;
 			}
 			if (!file) {
-				setSubmitMessage("You have not entered a file to submit.");
+				setSubmitMessage('You have not entered a file to submit.');
 				return;
 			}
 			const res = await handleUpload({
 				file,
 				metadata: {
 					question: `${week}${questionNum}${questionPart}`,
-					username: `${data?.me?.username}`,
+					username: `${data?.me?.username}`
 				},
-				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`,
+				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`
 			});
-			console.log("Result called from Part: ", res);
-			setSubmitMessage("You have successfully submitted the file.");
+			console.log('Result called from Part: ', res);
+			setSubmitMessage('You have successfully submitted the file.');
 			// console.log(res);
 		} catch (error) {
 			if (error instanceof Error) {
 				setSubmitMessage(error.message);
 			} else {
 				setSubmitMessage(
-					"Something went wrong. Please ensure you are logged in and try again."
+					'Something went wrong. Please ensure you are logged in and try again.'
 				);
 			}
 			setDisabled(!disabled);
@@ -82,13 +83,20 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				res
 			);
 			const presignedURL = res.data?.viewFile?.uploadData?.signedRequest;
-			window.open(presignedURL);
+			console.log(presignedURL);
+			if (presignedURL === null || presignedURL === undefined) {
+				setViewFileMessage(
+					'You have not submitted a file for this question yet. Please submit a file and try again.'
+				);
+			} else {
+				window.open(presignedURL);
+			}
 		} catch (error) {
 			if (error instanceof Error) {
-				setSubmitMessage(error.message);
+				setViewFileMessage(error.message);
 			} else {
-				setSubmitMessage(
-					"Something went wrong. Please ensure you are logged in and try again."
+				setViewFileMessage(
+					'Something went wrong. Please ensure you are logged in and try again.'
 				);
 			}
 		}
