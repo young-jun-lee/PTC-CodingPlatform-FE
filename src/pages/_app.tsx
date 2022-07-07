@@ -18,6 +18,7 @@ import type { AppProps } from "next/app";
 import Footer from "../components/Footer";
 import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
 import theme from "../theme";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -27,6 +28,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 					useSystemColorMode: false,
 				}}
 			>
+				<Head>
+					<title>PTC Coding Challenge</title>
+				</Head>
 				<Component {...pageProps} />
 			</ColorModeProvider>
 			<Footer />
