@@ -17,6 +17,7 @@
 		"@urql/exchange-graphcache": "^4.3.6",
 		"apollo": "^2.33.9",
 		"axios": "^0.27.2",
+		"cors": "^2.8.5",
 		"dotenv": "^16.0.1",
 		"formik": "^2.2.9",
 		"framer-motion": "^4.0.3",

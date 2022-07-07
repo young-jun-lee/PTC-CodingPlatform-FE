@@ -127,14 +127,26 @@ function useAWS() {
 			s3UploadData.data?.uploadFile?.uploadData?.signedRequest;
 
 		// TODO: do err handling on axios request
-		await axios.put(signedRequest, file, {
-			withCredentials: false,
-			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Methods":
-					"GET,PUT,POST,DELETE,PATCH,OPTIONS",
-			},
-		});
+		// await axios.put(signedRequest, file, {
+		// 	withCredentials: false,
+		// 	headers: {
+		// 		"Access-Control-Allow-Origin": "*",
+		// 		"Access-Control-Allow-Methods":
+		// 			"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+		// 	},
+		// });
+
+		try {
+			const res = await fetch(signedRequest, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: file,
+			});
+		} catch (err) {
+			console.log(err);
+		}
 
 		const dbSubmission = await uploadDB({
 			existing: existingSubmissionData?.existing as boolean,
