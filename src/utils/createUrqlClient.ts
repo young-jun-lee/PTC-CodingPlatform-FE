@@ -27,9 +27,9 @@ const errorExchange: Exchange =
 export const createUrqlClient = (ssrExchange: any) => (
 	console.log("backend URL:", process.env.BACKEND_URL),
 	{
-		// url: "http://localhost:4000/graphql",
+		url: "http://localhost:4000/graphql",
 
-		url: process.env.NEXT_PUBLIC_API_URL as string,
+		// url: process.env.NEXT_PUBLIC_API_URL as string,
 		fetchOptions: {
 			credentials: "include" as const,
 			headers: { "X-Forwarded-Proto": "https" },
