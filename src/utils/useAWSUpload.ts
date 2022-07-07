@@ -127,7 +127,7 @@ function useAWS() {
 			s3UploadData.data?.uploadFile?.uploadData?.signedRequest;
 
 		// TODO: do err handling on axios request
-		await axios.put(signedRequest, file);
+		await axios.put(signedRequest, file, { headers: undefined });
 
 		const dbSubmission = await uploadDB({
 			existing: existingSubmissionData?.existing as boolean,
