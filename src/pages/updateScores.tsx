@@ -35,8 +35,11 @@ const updatescores = () => {
 			// console.log(err.error)
 			// setUpdateMessage(err);
 			if (err instanceof Error) {
-				console.log(err?.error);
-				console.log(err?.error.graphQLErrors);
+				console.log(err.message);
+				console.log(err.name);
+				console.log(err.cause);
+				// console.log(err?.error);
+				// console.log(err?.error.graphQLErrors);
 				// console.log(err.graphQLErrors);
 				// setUpdateMessage(err.graphQLErrors);
 			}
