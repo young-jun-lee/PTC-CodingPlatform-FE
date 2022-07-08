@@ -31,12 +31,13 @@ const updatescores = () => {
 			console.log(res);
 			setUpdateMessage(res.data?.updatePoints.message as string);
 		} catch (err) {
-			console.log(typeof err);
+			console.log("before check: ", err);
+			console.log("typeof: ", typeof err);
 			// console.log(err.error)
 			// setUpdateMessage(err);
 			if (err instanceof Error) {
-				console.log(err.message);
-				console.log(err.name);
+				console.log("inside check: ", err?.message);
+				console.log("inside check: ", err.name);
 
 				// console.log(err?.error);
 				// console.log(err?.error.graphQLErrors);
