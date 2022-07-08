@@ -10,8 +10,9 @@ import { createUrqlClient } from "../../utils/createUrqlClient";
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
-	const [submitMessage, setSubmitMessage] = useState("");
-	const [viewFileMessage, setViewFileMessage] = useState("");
+	const [fileName, setFileName] = useState('');
+	const [submitMessage, setSubmitMessage] = useState('');
+	const [viewFileMessage, setViewFileMessage] = useState('');
 	const [disabled, setDisabled] = useState(false);
 	const [submissionMessage, setSubmissionMessage] = useState("");
 	const [uploadFileInput, setUploadFileInput] = useState({});
@@ -27,7 +28,10 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	}
 
 	const onChange = (e: any) => {
-		setFile(e.target.files[0]);
+		if (e.target.files[0] !== undefined && e.target.files[0] !== null) {
+			setFileName(`selected file: ${e.target.files[0].name}`);
+			setFile(e.target.files[0]);
+		}
 	};
 
 	const onSubmit = async (
@@ -171,6 +175,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 									id='choose-file'
 									onChange={onChange}
 								/>
+								<div>{fileName}</div>
 								<input
 									disabled={disabled}
 									type='submit'
