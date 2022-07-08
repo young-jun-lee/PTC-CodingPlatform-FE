@@ -137,18 +137,6 @@ function useAWS() {
 			
 		});
 
-		// try {
-		// const res = await fetch(signedRequest, {
-		// method: "PUT",
-		// headers: {
-		// "Content-Type": "application/json",
-		// },
-		// body: file,
-		// });
-		// } catch (err) {
-		// console.log(err);
-		// }
-
 		const dbSubmission = await uploadDB({
 			existing: existingSubmissionData?.existing as boolean,
 			question: metadata.question,
