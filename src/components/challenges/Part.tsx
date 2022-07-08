@@ -56,7 +56,6 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			});
 			console.log("Result called from Part: ", res);
 			setSubmitMessage("You have successfully submitted the file.");
-			// console.log(res);
 		} catch (error) {
 			if (error instanceof Error) {
 				setSubmitMessage(error.message);
@@ -98,6 +97,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				setViewFileMessage(
 					"Something went wrong. Please ensure you are logged in and try again."
 				);
+				setDisabled(!disabled);
 			}
 		}
 	};
@@ -203,7 +203,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 							>
 								View Submission
 							</button>
-							<div>{submissionMessage}</div>
+							<div>{viewFileMessage}</div>
 						</>
 					)}
 				</form>
