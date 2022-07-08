@@ -89,6 +89,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				);
 			} else {
 				window.open(presignedURL);
+				setViewFileMessage("");
 			}
 		} catch (error) {
 			if (error instanceof Error) {
@@ -196,6 +197,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 							</>
 						)} */}
 							<button
+								disabled={disabled}
 								className='problem-button file-submit-button view-button'
 								onClick={(e) =>
 									viewSubmission(e, problemKeys.part)
