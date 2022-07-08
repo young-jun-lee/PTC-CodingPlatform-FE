@@ -29,7 +29,9 @@ const updatescores = () => {
 		try {
 			const res = await updatepoints({ rows });
 			console.log(res);
-			setUpdateMessage(res.data?.updatePoints.message as string);
+			if (res.error?.graphQLErrors)
+				throw new Error(res.error?.graphQLErrors[0].message as string);
+			else setUpdateMessage(res.data?.updatePoints.message as string);
 		} catch (err) {
 			console.log("before check: ", err);
 			console.log("typeof: ", typeof err);
@@ -42,7 +44,7 @@ const updatescores = () => {
 				// console.log(err?.error);
 				// console.log(err?.error.graphQLErrors);
 				// console.log(err.graphQLErrors);
-				// setUpdateMessage(err.graphQLErrors);
+				setUpdateMessage(err.message);
 			}
 		}
 	};
