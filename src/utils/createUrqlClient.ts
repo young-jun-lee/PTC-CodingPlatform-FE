@@ -32,18 +32,18 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
 	}
 	console.log(process.env.NEXT_PUBLIC_API_URL);
 	return {
-		// url: process.env.NEXT_PUBLIC_API_URL as string,
-		// fetchOptions: {
-		// 	credentials: "include" as const,
-		// 	headers: cookie ? { cookie } : undefined,
-		// },
-		// url: "http://localhost:4000/graphql",
-
 		url: process.env.NEXT_PUBLIC_API_URL as string,
 		fetchOptions: {
 			credentials: "include" as const,
-			headers: { "X-Forwarded-Proto": "https" },
+			headers: cookie ? { cookie } : undefined,
 		},
+		// url: "http://localhost:4000/graphql",
+
+		// url: process.env.NEXT_PUBLIC_API_URL as string,
+		// fetchOptions: {
+		// 	credentials: "include" as const,
+		// 	headers: { "X-Forwarded-Proto": "https" },
+		// },
 		exchanges: [
 			dedupExchange,
 			cacheExchange({
