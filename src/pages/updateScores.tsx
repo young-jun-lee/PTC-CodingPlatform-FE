@@ -6,17 +6,19 @@ import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
 import {
 	useUpdatePointsMutation,
+	useUpdateTotalPointsMutation,
 	useUserPointsQuery,
 } from "../generated/graphql";
 
 const updatescores = () => {
 	const [, updatepoints] = useUpdatePointsMutation();
+	const [, updateTotal] = useUpdateTotalPointsMutation();
 	const [updateMessage, setUpdateMessage] = useState("");
+	const [updateTotalMessage, setUpdateTotalMessage] = useState("");
 	const [counter, setCounter] = useState(0);
-	const [data, setData] = useState("");
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
-		setData(event.target);
+
 		const rows = [];
 		console.log(event.target[0].value);
 		for (let i = 0; i <= counter * 2 - 1; i += 2) {
@@ -28,23 +30,25 @@ const updatescores = () => {
 		}
 		try {
 			const res = await updatepoints({ rows });
-			console.log(res);
 			if (res.error?.graphQLErrors)
 				throw new Error(res.error?.graphQLErrors[0].message as string);
 			else setUpdateMessage(res.data?.updatePoints.message as string);
 		} catch (err) {
-			console.log("before check: ", err);
-			console.log("typeof: ", typeof err);
-			// console.log(err.error)
-			// setUpdateMessage(err);
 			if (err instanceof Error) {
-				console.log("inside check: ", err?.message);
-				console.log("inside check: ", err.name);
-
-				// console.log(err?.error);
-				// console.log(err?.error.graphQLErrors);
-				// console.log(err.graphQLErrors);
 				setUpdateMessage(err.message);
+			}
+		}
+		try {
+			const res = await updateTotal();
+			if (res.error?.graphQLErrors)
+				throw new Error(res.error?.graphQLErrors[0].message as string);
+			else
+				setUpdateTotalMessage(
+					res.data?.updateTotalPoints.message as string
+				);
+		} catch (err) {
+			if (err instanceof Error) {
+				setUpdateTotalMessage(err.message);
 			}
 		}
 	};
@@ -79,7 +83,8 @@ const updatescores = () => {
 					))}
 				<input type='submit' name='update scores'></input>
 			</form>
-			{updateMessage}
+			<div>{updateMessage}</div>
+			<div>{updateTotalMessage}</div>
 		</div>
 	);
 };

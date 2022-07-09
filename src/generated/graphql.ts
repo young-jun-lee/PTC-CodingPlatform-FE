@@ -63,6 +63,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register: UserResponse;
   updatePoints: MessageField;
+  updateTotalPoints: MessageField;
   uploadFile?: Maybe<S3SubmissionResponse>;
   viewFile?: Maybe<S3SubmissionResponse>;
 };
@@ -268,6 +269,11 @@ export type UpdatePointsMutationVariables = Exact<{
 
 export type UpdatePointsMutation = { __typename?: 'Mutation', updatePoints: { __typename?: 'MessageField', field: string, message: string } };
 
+export type UpdateTotalPointsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpdateTotalPointsMutation = { __typename?: 'Mutation', updateTotalPoints: { __typename?: 'MessageField', field: string, message: string } };
+
 export type UploadFileMutationVariables = Exact<{
   presignedUrlInput: PresignedUrlInput;
 }>;
@@ -446,6 +452,18 @@ export const UpdatePointsDocument = gql`
 
 export function useUpdatePointsMutation() {
   return Urql.useMutation<UpdatePointsMutation, UpdatePointsMutationVariables>(UpdatePointsDocument);
+};
+export const UpdateTotalPointsDocument = gql`
+    mutation UpdateTotalPoints {
+  updateTotalPoints {
+    field
+    message
+  }
+}
+    `;
+
+export function useUpdateTotalPointsMutation() {
+  return Urql.useMutation<UpdateTotalPointsMutation, UpdateTotalPointsMutationVariables>(UpdateTotalPointsDocument);
 };
 export const UploadFileDocument = gql`
     mutation UploadFile($presignedUrlInput: PresignedUrlInput!) {

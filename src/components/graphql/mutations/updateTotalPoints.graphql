@@ -1,0 +1,6 @@
+mutation UpdateTotalPoints {
+	updateTotalPoints {
+		field
+		message
+	}
+}
