@@ -1,9 +1,8 @@
-import React, { useState, useEffect, InputHTMLAttributes } from "react";
+import { CloseButton } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import ForgotPW from "./ForgotPW";
 import Login from "./Login";
 import SignUp from "./SignUp";
-import ForgotPW from "./ForgotPW";
-import { Box, CloseButton, IconButton, Stack } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 type PopupProps = {
 	id: string;
 	componentNameProps: string;

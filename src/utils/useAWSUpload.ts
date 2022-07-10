@@ -107,9 +107,9 @@ function useAWS() {
 				path,
 			},
 		});
-		console.log(s3UploadData);
+		
 		if (s3UploadData.error?.graphQLErrors) {
-			console.log(s3UploadData.error?.graphQLErrors);
+			
 			throw new Error(
 				"Something went wrong. Please ensure you are logged in and try again." +
 					" If this error persists please email us at coding.challenge@projecttechconferences.com ASAP"

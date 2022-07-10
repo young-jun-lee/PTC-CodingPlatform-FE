@@ -1,16 +1,26 @@
-import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-import { useState } from "react";
 import Banner from "../components/Banner";
 import Navbar from "../components/Navbar";
-import { useTopScoresQuery, useUserPointsQuery } from "../generated/graphql";
+import { useTopScoresQuery } from "../generated/graphql";
+import { checkDate } from "../utils/checkDate";
 
 const Leaderboard = () => {
-	const [pLeaderboardInfo, setPLeaderboardInfo] = useState();
-	const [pLeaderboardInfoSub, setPLeaderboardInfoSub] = useState([]);
 	const [{ data, fetching }] = useTopScoresQuery();
-	const router = useRouter();
+	const { weekEnds } = checkDate();
+
+	// Before any submissions have been marked but users are registered ie. week1
+	if (new Date(Date.now()).getTime() < weekEnds.week1.getTime()) {
+		return (
+			<div className='section' id='leaderboard'>
+				<Navbar />
+				<Banner page='TOP 10 Leaderboard' />
+				<div className='leaderboardContainer'>
+					<h2>Check back next week for the updated leaderboard!</h2>
+				</div>
+			</div>
+		);
+	}
 
 	if ((!fetching && !data) || data?.topScores?.length == 0) {
 		return (
@@ -27,7 +37,7 @@ const Leaderboard = () => {
 		<div className='section' id='leaderboard'>
 			<Navbar />
 			<Banner page='TOP 10 Leaderboard' />
-			{console.log(data)}
+			
 			{!data?.topScores && fetching ? (
 				<div className='leaderboardContainer'>
 					<p>data is loading...</p>
@@ -42,7 +52,7 @@ const Leaderboard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{console.log(data?.topScores)}
+						
 						{data!.topScores?.map((post, index) => (
 							<tr key={index}>
 								<td>{post.rank}</td>

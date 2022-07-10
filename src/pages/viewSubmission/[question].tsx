@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAWS } from '../../utils/useAWSUpload';
-// import Banner from '../../../components/Banner';
-// import Navbar from '../../../components/Navbar';
-// import ChallengesBody from '../../components/challenges/ChallengesBody';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { withUrqlClient } from 'next-urql';
-import { createUrqlClient } from '../../utils/createUrqlClient';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAWS } from "../../utils/useAWSUpload";
+
+import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 
 const ViewSubmission: NextPage<{}> = () => {
-	const [submissionData, setSubmissionData] = useState('');
-	const [question, setQuestion] = useState('   ');
+	const [submissionData, setSubmissionData] = useState("");
+	const [question, setQuestion] = useState("   ");
 	const router = useRouter();
 
 	const { handleGetUpload, viewFileprogress } = useAWS();
@@ -22,7 +20,7 @@ const ViewSubmission: NextPage<{}> = () => {
 			const res = await handleGetUpload(`${question}`);
 			console.log(`PresignedURL from : ${question}`, res);
 			const presignedURL = res.data?.viewFile?.uploadData?.signedRequest;
-			if (typeof presignedURL === 'string') {
+			if (typeof presignedURL === "string") {
 				const file = axios
 					.get(presignedURL)
 					.then((res) => {
@@ -46,13 +44,13 @@ const ViewSubmission: NextPage<{}> = () => {
 	var submissionFound = true;
 
 	useEffect(() => {
-		if (typeof router.query.question === 'string') {
+		if (typeof router.query.question === "string") {
 			setQuestion(router.query.question);
 		}
 		console.log(`question: ${question}`);
 		console.log(question);
-		submissionFound = typeof question === 'string';
-		if (typeof question === 'string') {
+		submissionFound = typeof question === "string";
+		if (typeof question === "string") {
 			viewFile(question, submissionFound);
 			submissionFound = true;
 		} else {

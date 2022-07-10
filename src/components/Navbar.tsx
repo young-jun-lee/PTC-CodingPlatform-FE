@@ -5,6 +5,7 @@ import { isServer } from "../utils/isServer";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Popup } from "./Popup";
 import { Button, CloseButton } from "@chakra-ui/react";
+import { checkDate } from "../utils/checkDate";
 
 export interface MenuProps {
 	children: React.ReactNode;
@@ -15,6 +16,8 @@ const Navbar = () => {
 	const [{ data, fetching }] = useMeQuery({
 		pause: isServer(),
 	});
+	const { checkStartDate } = checkDate();
+
 	const numWeeks = 3;
 	const Menu = (props: MenuProps) => {
 		const [isOpen, setIsOpen] = React.useState(false);
@@ -35,15 +38,29 @@ const Navbar = () => {
 	const menuInstance = (
 		<Menu>
 			<div className='nav'>Challenges</div>
-			<Link href='/challenges/1'>
-				<div className='item'>Week 1</div>
-			</Link>
-			<Link href='/challenges/2'>
-				<div className='item'>Week 2</div>
-			</Link>
-			<Link href='/challenges/3'>
-				<div className='item'>Week 3</div>
-			</Link>
+			{checkStartDate() === 0 && (
+				<div className='item'>Coming soon...</div>
+			)}
+			{checkStartDate() >= 1 && (
+				<Link href='/challenges/1'>
+					<div className='item'>Week 1</div>
+				</Link>
+			)}
+			{checkStartDate() >= 2 && (
+				<Link href='/challenges/2'>
+					<div className='item'>Week 2</div>
+				</Link>
+			)}
+			{checkStartDate() >= 3 && (
+				<Link href='/challenges/3'>
+					<div className='item'>Week 3</div>
+				</Link>
+			)}
+			{checkStartDate() >= 4 && (
+				<Link href='/challenges/4'>
+					<div className='item'>Week 4</div>
+				</Link>
+			)}
 		</Menu>
 	);
 

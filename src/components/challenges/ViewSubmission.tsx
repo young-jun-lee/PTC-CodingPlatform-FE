@@ -4,10 +4,6 @@ import axios from "axios";
 import "../../styles/ViewSubmission.css";
 import data from "../../content/loginsignup";
 
-function getPathname() {
-	//const location = useLocation();
-}
-
 const ViewSubmission = ({ match }: any) => {
 	const [submissionFound, setSubmissionFound] = useState(true);
 	const [submissionText, setSubmissionText] = useState("");
@@ -29,7 +25,7 @@ const ViewSubmission = ({ match }: any) => {
 			})
 			.catch((err) => {
 				setSubmissionFound(false);
-				console.log(err);
+				
 			});
 	};
 

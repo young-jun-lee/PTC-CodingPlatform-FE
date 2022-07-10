@@ -70,11 +70,6 @@ const Landing: NextPage = () => {
 								alt='#'
 								className='sponsImages angstrom'
 							/>
-							<img
-								src={`/assets/static/WaterlooIT Logo.png`}
-								alt='#'
-								className='sponsImages'
-							/>
 						</div>
 					</div>
 					<div className='landing-goodluck landing-box'>

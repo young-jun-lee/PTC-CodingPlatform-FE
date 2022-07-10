@@ -1,10 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
-// import axios from "axios";
+import { FC } from "react";
 import Part from "./Part";
-// import style from "../../styles/Problem.css";
 import { ProblemProps } from "../../common/Interfaces";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
 import Week1Content from "../../content/questions/week1";
 import Week2Content from "../../content/questions/week2";
 import Week3Content from "../../content/questions/week3";

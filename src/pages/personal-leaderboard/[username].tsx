@@ -40,7 +40,7 @@ const PLeaderboard = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{console.log(data?.userPoints)}
+						
 						{data!.userPoints?.map((post, index) => (
 							<tr key={index}>
 								<td>{post.question[0]}</td>

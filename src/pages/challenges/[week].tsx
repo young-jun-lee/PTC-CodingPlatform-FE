@@ -19,7 +19,7 @@ const Challenges: NextPage<{ week: string }> = () => {
   const week = parseInt(
     typeof router.query.week === 'string' ? router.query.week : ''
   );
-  console.log(`week: ${week}`);
+  
   return (
     <div className="section" id="home">
       <Navbar />

@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			>
 				<Head>
 					<title>PTC Coding Challenge</title>
+					<link rel='shortcut icon' href='/favicon-32x32.png' />
 				</Head>
 				<Component {...pageProps} />
 			</ColorModeProvider>

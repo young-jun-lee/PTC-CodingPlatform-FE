@@ -2,18 +2,18 @@ export const checkDate = () => {
 	const currentDate = new Date(Date.now());
 	const weekStarts = {
 		// TODO: change month back to 5 later
-		week1: new Date(Date.UTC(2022, 4, 10, 4, 0, 0)),
-		week2: new Date(Date.UTC(2022, 4, 17, 4, 0, 0)),
-		week3: new Date(Date.UTC(2022, 4, 24, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 4, 31, 4, 0, 0))
+		week1: new Date(Date.UTC(2022, 6, 11, 4, 0, 0)),
+		week2: new Date(Date.UTC(2022, 6, 18, 16, 0, 0)),
+		week3: new Date(Date.UTC(2022, 6, 25, 16, 0, 0)),
+		week4: new Date(Date.UTC(2022, 7, 1, 16, 0, 0)),
 	};
 
 	const weekEnds = {
 		// TODO: change month back to 6? later
-		week1: new Date(Date.UTC(2022, 8, 16, 4, 0, 0)),
-		week2: new Date(Date.UTC(2022, 8, 23, 4, 0, 0)),
-		week3: new Date(Date.UTC(2022, 8, 30, 4, 0, 0)),
-		week4: new Date(Date.UTC(2022, 9, 6, 4, 0, 0))
+		week1: new Date(Date.UTC(2022, 6, 18, 4, 0, 0)),
+		week2: new Date(Date.UTC(2022, 6, 25, 4, 0, 0)),
+		week3: new Date(Date.UTC(2022, 7, 1, 4, 0, 0)),
+		week4: new Date(Date.UTC(2022, 7, 8, 4, 0, 0)),
 	};
 
 	const checkStartDate = () => {
@@ -26,13 +26,6 @@ export const checkDate = () => {
 	};
 
 	const checkEndDate = (week: number) => {
-		console.log('week: ', week);
-		console.log('currentDate: ', currentDate);
-		console.log('week1ends: ', weekEnds.week1);
-		console.log(
-			'comparing dates: ',
-			currentDate.getTime() > weekEnds.week1.getTime()
-		);
 		if (week === 4 && currentDate.getTime() > weekEnds.week4.getTime()) {
 			return false;
 		} else if (
@@ -55,5 +48,5 @@ export const checkDate = () => {
 		}
 	};
 
-	return { checkStartDate, checkEndDate };
+	return { checkStartDate, checkEndDate, weekEnds };
 };

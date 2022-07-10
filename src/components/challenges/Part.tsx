@@ -1,24 +1,19 @@
-import React, { useContext, useState, useEffect, FC } from "react";
-import axios from "axios";
-import { PartsProps, ProblemKeyProps } from "../../common/Interfaces";
-import { useAWS } from "../../utils/useAWSUpload";
+import React, { FC, useState } from "react";
+
+import { PartsProps } from "../../common/Interfaces";
+import { useMeQuery } from "../../generated/graphql";
 import { checkDate } from "../../utils/checkDate";
-import ScrollableMenu from "./ScrollableMenu";
-import { useChangePasswordMutation, useMeQuery } from "../../generated/graphql";
-import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
+import { useAWS } from "../../utils/useAWSUpload";
 
 const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 	const [file, setFile] = useState();
-	const [fileName, setFileName] = useState('');
-	const [submitMessage, setSubmitMessage] = useState('');
-	const [viewFileMessage, setViewFileMessage] = useState('');
+	const [fileName, setFileName] = useState("");
+	const [submitMessage, setSubmitMessage] = useState("");
+	const [viewFileMessage, setViewFileMessage] = useState("");
 	const [disabled, setDisabled] = useState(false);
-	const [submissionMessage, setSubmissionMessage] = useState("");
-	const [uploadFileInput, setUploadFileInput] = useState({});
 	const [{ data, fetching }] = useMeQuery();
-	const { checkStartDate, checkEndDate } = checkDate();
-	const { handleUpload, handleGetUpload, viewFileprogress } = useAWS();
+	const { checkEndDate } = checkDate();
+	const { handleUpload, handleGetUpload } = useAWS();
 
 	function getData(spec: any) {
 		if (Array.isArray(spec)) {
@@ -58,7 +53,6 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 				},
 				path: `${week}${questionNum}${questionPart}/${data?.me?.username}`,
 			});
-			console.log("Result called from Part: ", res);
 			setSubmitMessage("You have successfully submitted the file.");
 		} catch (error) {
 			if (error instanceof Error) {
@@ -78,26 +72,24 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 
 	const viewSubmission = async (e: any, part: string) => {
 		e.preventDefault();
-		console.log(`${week}${questionNum}${part}`);
 		try {
 			const res = await handleGetUpload(`${week}${questionNum}${part}`);
-			console.log(
-				`PresignedURL from : ${week}${questionNum}${part}`,
-				res
-			);
 			const presignedURL = res.data?.viewFile?.uploadData?.signedRequest;
-			console.log(presignedURL);
+
 			if (presignedURL === null || presignedURL === undefined) {
 				setViewFileMessage(
 					"You have not submitted a file for this question yet. Please submit a file and try again."
 				);
+				setDisabled(!disabled);
 			} else {
 				window.open(presignedURL);
 				setViewFileMessage("");
+				setDisabled(!disabled);
 			}
 		} catch (error) {
 			if (error instanceof Error) {
 				setViewFileMessage(error.message);
+				setDisabled(!disabled);
 			} else {
 				setViewFileMessage(
 					"Something went wrong. Please ensure you are logged in and try again."
@@ -153,54 +145,47 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 					))}
 				</div>
 				<form className='problem-button-container'>
-					{/* {data?.me && data?.me.isAdmin && (
-						<>
-							<ScrollableMenu
-								question={`${week}${questionNum}${problemKeys.part}`}
-							/>
-						</>
-					)} */}
 					{!data?.me ? (
 						<>
 							<div>Please log in to submit a file</div>
 						</>
 					) : (
 						<>
-							{/* {checkStartDate() === week && ( */}
-							<>
-								<input
-									type='file'
-									accept='.py'
-									className='choose-file-button problem-button'
-									id='choose-file'
-									onChange={onChange}
-								/>
-								<div>{fileName}</div>
-								<input
-									disabled={disabled}
-									type='submit'
-									onClick={(e) =>
-										onSubmit(e, problemKeys.part)
-									}
-									className='file-submit-button problem-button'
-									style={
-										disabled
-											? { opacity: 0.4 }
-											: { opacity: 1.0 }
-									}
-								/>
-								<div>{submitMessage}</div>
-							</>
-							{/* )} */}
-							{/* {status.loggedIn?.week !== parseInt(props.week) && (
-							<>
-								<div>
-									You are no longer able to submit for this
-									week
-								</div>
-								<br></br>
-							</>
-						)} */}
+							{checkEndDate(week) ? (
+								<>
+									<input
+										type='file'
+										accept='.py'
+										className='choose-file-button problem-button'
+										id='choose-file'
+										onChange={onChange}
+									/>
+									<div>{fileName}</div>
+									<input
+										disabled={disabled}
+										type='submit'
+										onClick={(e) =>
+											onSubmit(e, problemKeys.part)
+										}
+										className='file-submit-button problem-button'
+										style={
+											disabled
+												? { opacity: 0.4 }
+												: { opacity: 1.0 }
+										}
+									/>
+									<div>{submitMessage}</div>
+								</>
+							) : (
+								<>
+									<div>
+										You are no longer able to submit for
+										this week
+									</div>
+									<br></br>
+								</>
+							)}
+
 							<button
 								disabled={disabled}
 								className='problem-button file-submit-button view-button'
