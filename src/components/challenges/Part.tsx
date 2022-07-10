@@ -135,14 +135,20 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			<hr></hr>
 			<div className='part-grid part-text'>
 				<div className='add-hints'>
-					{problemKeys?.hints?.map((hint, index) => (
-						<div key={index}>
-							<a className='hint-links' href={hint.link}>
-								{hint.text}
-							</a>
-							<br />
-						</div>
-					))}
+					{week === 1 ? (
+						<div>No hints available</div>
+					) : (
+						<>
+							{problemKeys?.hints?.map((hint, index) => (
+								<div key={index}>
+									<a className='hint-links' href={hint.link}>
+										{hint.text}
+									</a>
+									<br />
+								</div>
+							))}
+						</>
+					)}
 				</div>
 				<form className='problem-button-container'>
 					{!data?.me ? (
