@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-
+import Image from "next/image";
 import { PartsProps } from "../../common/Interfaces";
 import { useMeQuery } from "../../generated/graphql";
 import { checkDate } from "../../utils/checkDate";
@@ -33,6 +33,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 		e: React.MouseEvent<HTMLInputElement, MouseEvent>,
 		questionPart: string
 	) => {
+		e.currentTarget.disabled = true;
 		e.preventDefault();
 		try {
 			if (!checkEndDate(week)) {
@@ -135,20 +136,7 @@ const Part: FC<PartsProps> = ({ problemKeys, questionNum, week }) => {
 			<hr></hr>
 			<div className='part-grid part-text'>
 				<div className='add-hints'>
-					{week === 1 ? (
-						<div>No hints available</div>
-					) : (
-						<>
-							{problemKeys?.hints?.map((hint, index) => (
-								<div key={index}>
-									<a className='hint-links' href={hint.link}>
-										{hint.text}
-									</a>
-									<br />
-								</div>
-							))}
-						</>
-					)}
+					{!problemKeys.hints && <div>No hints available</div>}
 				</div>
 				<form className='problem-button-container'>
 					{!data?.me ? (
