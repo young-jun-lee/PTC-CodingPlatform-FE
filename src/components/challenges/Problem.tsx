@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Part from "./Part";
-import { ProblemProps } from "../../common/Interfaces";
+import { ContentProps, ProblemProps } from "../../common/Interfaces";
 import Week1Content from "../../content/questions/week1";
 import Week2Content from "../../content/questions/week2";
 import Week3Content from "../../content/questions/week3";
@@ -22,7 +22,7 @@ const Problem: FC<ProblemProps> = ({ questionNum, week }) => {
 		return Week1Content;
 	};
 
-	const content = getContent();
+	const content: ContentProps = getContent();
 
 	return (
 		<div className='section' id='home'>
@@ -34,6 +34,20 @@ const Problem: FC<ProblemProps> = ({ questionNum, week }) => {
 				<div className='paragraph-container'>
 					<div className='paragraph-text'>
 						{content.Problems[questionKey].Paragraph}
+					</div>
+					<div>
+						{content.Problems[questionKey].Images?.map(
+							(image, index) => (
+								<div key={index}>
+									<img
+										src={image.link.src}
+										width='400'
+										height='400'
+									></img>
+									<br />
+								</div>
+							)
+						)}
 					</div>
 				</div>
 

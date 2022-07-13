@@ -60,6 +60,7 @@
 
 .paragraph-container {
 	display: flex;
+	flex-direction: column;
 	text-align: center;
 	align-self: center;
 	justify-self: center;
