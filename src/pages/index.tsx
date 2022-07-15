@@ -15,6 +15,14 @@ const Landing: NextPage = () => {
 					<div className='aboutPTC landing-box'>
 						<div className='aboutTitle'>
 							<h2 className='landingTitle'>About PTC</h2>
+							<div className='welcomeContentContainer'>
+								<p className='welcomeContent'>
+									{Text.aboutParaOne}
+								</p>
+								<p className='welcomeContent'>
+									{Text.aboutParaTwo}
+								</p>
+							</div>
 						</div>
 					</div>
 
@@ -24,7 +32,9 @@ const Landing: NextPage = () => {
 								PTC’s Coding Challenge?
 							</h2>
 						</div>
-						<p className='welcomeContent'>{Text.whatParaOne}</p>
+						<div className='welcomeContentContainer'>
+							<p className='welcomeContent'>{Text.whatParaOne}</p>
+						</div>
 					</div>
 
 					<div className='learningGrowth landing-box'>
@@ -33,43 +43,36 @@ const Landing: NextPage = () => {
 								Learning and Growth
 							</h2>
 						</div>
-						<p className='welcomeContent'>{Text.learningParaOne}</p>
-						<ul>
-							<li>{Text.learningParaTwo}</li>
-							<li>{Text.learningParaThree}</li>
-						</ul>
+						<div className='welcomeContentContainer'>
+							<p className='welcomeContent'>
+								{Text.learningParaOne}
+							</p>
+							<ul>
+								<li>{Text.learningParaTwo}</li>
+								<li>{Text.learningParaThree}</li>
+							</ul>
+						</div>
 					</div>
 
 					<div className='getStarted landing-box'>
 						<div className='getStartedTitle'>
 							<h2 className='landingTitle'>Get Started!</h2>
 						</div>
-						<p className='welcomeContent'>{Text.learningParaOne}</p>
-						<ol>
-							<li>
-								{Text.getStartedParaTwo}
-								<a href='rules'>Rules</a>
-							</li>
-							<li>
-								{Text.getStartedParaThree}
-								<a href='challenges/1'>Challenges</a>
-							</li>
-							<li>{Text.getStartedParaFour}</li>
-						</ol>
-					</div>
-
-					<div className='ptcMedia landing-box'>
-						<div className='ptcMediaTitle'>
-							<h2 className='landingTitle'>Sponsors</h2>
+						<div className='welcomeContentContainer'>
 							<p className='welcomeContent'>
-								A big thank you to our wonderful sponsors who
-								made this event possible!
+								{Text.learningParaOne}
 							</p>
-							<img
-								src={`/assets/static/angstromretinalogor.png`}
-								alt='#'
-								className='sponsImages angstrom'
-							/>
+							<ol>
+								<li>
+									{Text.getStartedParaTwo}
+									<a href='rules'>Rules</a>
+								</li>
+								<li>
+									{Text.getStartedParaThree}
+									<a href='challenges/1'>Challenges</a>
+								</li>
+								<li>{Text.getStartedParaFour}</li>
+							</ol>
 						</div>
 					</div>
 					<div className='landing-goodluck landing-box'>

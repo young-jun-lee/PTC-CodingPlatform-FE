@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { isServer } from "../utils/isServer";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { Popup } from "./Popup";
-import { Button, CloseButton } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { checkDate } from "../utils/checkDate";
 
 export interface MenuProps {
@@ -82,7 +82,7 @@ const Navbar = () => {
 				<a href='https://www.projecttechconferences.com'>
 					<img
 						className='codingLogo'
-						src='/assets/static/logos.png'
+						src='/assets/static/PTC Logo Transparent Cropped.png'
 						alt='PTC'
 					></img>
 				</a>
