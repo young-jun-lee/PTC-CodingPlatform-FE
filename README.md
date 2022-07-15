@@ -1,6 +1,7 @@
 # 💻 PTC Coding Platform 2022 - Frontend
 
-##About
+## About
+
 During the months of June and July 2022, Project Tech Conferences hosted a coding challenge, releasing new questions on a weekly cadence. The coding platform was created to allow users to view the weekly questions, create accounts, reset their passwords, upload their submissions to specific questions and later view their submissions and corresponding scores. Admin accounts can also view all submissions made by all users and update the scores for each submission.
 
 This is the repository for the 2022 PTC Coding Platform website. The website is currently live at https://coding-challenge.projecttechconferences.com deployed on the [Vercel platform](https://vercel.com).
