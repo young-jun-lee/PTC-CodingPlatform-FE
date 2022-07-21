@@ -77,7 +77,7 @@ export default {
 					outputSpecification:
 						"Output a single integer, the time (in seconds) it will take Alex to walk past table m. (Note that the mth table should be included in the calculation, since megachess games start with the players on the far side of the table.)",
 					sampleInput: ["4 3", "1 4 2 3"],
-					sampleOutput: "6",
+					sampleOutput: "7",
 				},
 			],
 		},
